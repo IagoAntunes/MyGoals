@@ -1,0 +1,6 @@
+@MyGoalsBackend_HostAddress = http://localhost:5140
+
+GET {{MyGoalsBackend_HostAddress}}/weatherforecast/
+Accept: application/json
+
+###
