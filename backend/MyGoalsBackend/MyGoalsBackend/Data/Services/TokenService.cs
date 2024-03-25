@@ -1,26 +1,27 @@
 ﻿
 using Microsoft.IdentityModel.Tokens;
-using MyGoalsBackend.Models;
+using MyGoalsBackend.Domain.IServices;
+using MyGoalsBackend.Domain.Models;
 using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
 using System.Text;
 
-namespace MyGoalsBackend.Services
+namespace MyGoalsBackend.Data.Services
 {
-    public class TokenService
+    public class TokenService : ITokenService
     {
         public string GenerateToken(UserModel usuario)
         {
-            Claim[] claims = new Claim[]
-            {
+            Claim[] claims =
+            [
                 new Claim("username", usuario.UserName),
                 new Claim("id", usuario.Id),
                 new Claim("id", usuario.Id),
-            };
+            ];
 
             var chave = new SymmetricSecurityKey(
-                Encoding.UTF8.GetBytes("ABCABCABCABCABC")
-                ) ;
+                Encoding.UTF8.GetBytes("ABCABCABCABCABCABCABCABCABCABCABCABC")
+                );
             var signinCredentials = new SigningCredentials(
                 chave,
                 SecurityAlgorithms.HmacSha256
@@ -33,7 +34,7 @@ namespace MyGoalsBackend.Services
                 );
 
             //Convert JWT type to string
-            return new JwtSecurityTokenHandler().WriteToken( token );
+            return new JwtSecurityTokenHandler().WriteToken(token);
         }
     }
 }

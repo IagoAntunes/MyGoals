@@ -1,8 +1,11 @@
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
+using MyGoalsBackend.Api.Repositories;
 using MyGoalsBackend.Data;
-using MyGoalsBackend.Models;
-using MyGoalsBackend.Services;
+using MyGoalsBackend.Data.Services;
+using MyGoalsBackend.Domain.IServices;
+using MyGoalsBackend.Domain.Models;
+using MyGoalsBackend.Domain.Repositories;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -25,8 +28,11 @@ builder.Services
 builder.Services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
 
 //Dependency Injection
-builder.Services.AddScoped<AuthService>();
-builder.Services.AddScoped<TokenService>();
+builder.Services.AddScoped<IAuthService, AuthService>();
+builder.Services.AddScoped<IAuthRepository, AuthRepository>();
+builder.Services.AddScoped<ITokenService, TokenService>();
+builder.Services.AddScoped<ITokenRepository, TokenRepository>();
+
 
 
 builder.Services.AddControllers();

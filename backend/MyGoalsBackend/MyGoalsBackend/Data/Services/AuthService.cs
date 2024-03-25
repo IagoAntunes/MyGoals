@@ -1,28 +1,29 @@
 ﻿using AutoMapper;
 using Microsoft.AspNetCore.Identity;
 using MyGoalsBackend.Data.Dtos;
-using MyGoalsBackend.Models;
+using MyGoalsBackend.Domain.IServices;
+using MyGoalsBackend.Domain.Models;
 
-namespace MyGoalsBackend.Services
+namespace MyGoalsBackend.Data.Services
 {
-    public class AuthService
+    public class AuthService : IAuthService
     {
         private IMapper _mapper;
         private UserManager<UserModel> _userManager;
         private SignInManager<UserModel> _signInManager;
-        private TokenService _tokenService;
+        private ITokenService _tokenService;
 
         public AuthService(
             UserManager<UserModel> userManager,
             IMapper mapper,
             SignInManager<UserModel> signInManager,
-            TokenService tokenService)
+            ITokenService tokenService)
         {
             _userManager = userManager;
             _signInManager = signInManager;
             _mapper = mapper;
             _tokenService = tokenService;
-         }
+        }
         public async Task Register(CreateUserDto userDto)
         {
             UserModel user = _mapper.Map<UserModel>(userDto);

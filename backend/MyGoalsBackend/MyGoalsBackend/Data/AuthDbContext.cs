@@ -1,6 +1,6 @@
 ﻿using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
-using MyGoalsBackend.Models;
+using MyGoalsBackend.Domain.Models;
 
 namespace MyGoalsBackend.Data
 {

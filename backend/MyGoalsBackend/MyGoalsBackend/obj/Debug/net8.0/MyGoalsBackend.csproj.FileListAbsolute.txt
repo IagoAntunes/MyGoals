@@ -110,3 +110,8 @@ C:\iagoferreira\projetos\MyGoals\backend\MyGoalsBackend\MyGoalsBackend\obj\Debug
 C:\iagoferreira\projetos\MyGoals\backend\MyGoalsBackend\MyGoalsBackend\obj\Debug\net8.0\MyGoalsBackend.pdb
 C:\iagoferreira\projetos\MyGoals\backend\MyGoalsBackend\MyGoalsBackend\obj\Debug\net8.0\MyGoalsBackend.genruntimeconfig.cache
 C:\iagoferreira\projetos\MyGoals\backend\MyGoalsBackend\MyGoalsBackend\obj\Debug\net8.0\ref\MyGoalsBackend.dll
+C:\iagoferreira\projetos\MyGoals\backend\MyGoalsBackend\MyGoalsBackend\bin\Debug\net8.0\Microsoft.IdentityModel.Abstractions.dll
+C:\iagoferreira\projetos\MyGoals\backend\MyGoalsBackend\MyGoalsBackend\bin\Debug\net8.0\Microsoft.IdentityModel.JsonWebTokens.dll
+C:\iagoferreira\projetos\MyGoals\backend\MyGoalsBackend\MyGoalsBackend\bin\Debug\net8.0\Microsoft.IdentityModel.Logging.dll
+C:\iagoferreira\projetos\MyGoals\backend\MyGoalsBackend\MyGoalsBackend\bin\Debug\net8.0\Microsoft.IdentityModel.Tokens.dll
+C:\iagoferreira\projetos\MyGoals\backend\MyGoalsBackend\MyGoalsBackend\bin\Debug\net8.0\System.IdentityModel.Tokens.Jwt.dll
