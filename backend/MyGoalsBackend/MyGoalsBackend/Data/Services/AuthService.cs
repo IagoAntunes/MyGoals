@@ -1,6 +1,8 @@
 ﻿using AutoMapper;
 using Microsoft.AspNetCore.Identity;
-using MyGoalsBackend.Data.Dtos;
+using MyGoalsBackend.Data.Dtos.Requests;
+using MyGoalsBackend.Data.Dtos.Results;
+using MyGoalsBackend.Data.Dtos.Results.AuthResults;
 using MyGoalsBackend.Domain.IServices;
 using MyGoalsBackend.Domain.Models;
 
@@ -24,29 +26,40 @@ namespace MyGoalsBackend.Data.Services
             _mapper = mapper;
             _tokenService = tokenService;
         }
-        public async Task Register(CreateUserDto userDto)
+        public async Task<IBaseResult<string>> Register(CreateUserDto userDto)
         {
+
+            var userExists = await _userManager.FindByNameAsync(userDto.Username);
+            if(userExists != null)
+            {
+                return new Unauthenticated(new UserAlreadyExistsResult());
+            }
+
             UserModel user = _mapper.Map<UserModel>(userDto);
             var result = await _userManager.CreateAsync(user, userDto.Password);
 
             if (!result.Succeeded)
             {
-                throw new ApplicationException("Falha ao cadastrar Usuario");
+                return new Unauthenticated(new OtherErrorResult());
             }
+            return new Authenticated(new UserRegisteredResult());
         }
 
-        public async Task<string> Login(LoginUserDto userDto)
+        public async Task<IBaseResult<string>> Login(LoginUserDto userDto)
         {
-            var result = await _signInManager.PasswordSignInAsync(
-                userDto.Username,
-                userDto.Password,
-                false,
-                false
-                );
+
+            var userExists = await _userManager.FindByNameAsync(userDto.Username);
+
+            if(userExists == null)
+            {
+                return new Unauthenticated(error: new UserNotFoundResult());
+            }
+            var result = await _signInManager.CheckPasswordSignInAsync(userExists, userDto.Password, false);
+
 
             if (!result.Succeeded)
             {
-                throw new ApplicationException("Usuário não autenticado");
+                return new Unauthenticated(error: new WrongPasswordResult());
             }
             var user = _signInManager
                 .UserManager
@@ -57,7 +70,7 @@ namespace MyGoalsBackend.Data.Services
 
             var token = _tokenService.GenerateToken(user);
 
-            return token;
+            return new Authenticated(new UserLoggedResult(token));
         }
     }
 }

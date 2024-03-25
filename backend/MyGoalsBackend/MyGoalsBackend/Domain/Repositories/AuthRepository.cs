@@ -1,5 +1,6 @@
 ﻿using MyGoalsBackend.Api.Repositories;
-using MyGoalsBackend.Data.Dtos;
+using MyGoalsBackend.Data.Dtos.Requests;
+using MyGoalsBackend.Data.Dtos.Results;
 using MyGoalsBackend.Domain.IServices;
 
 namespace MyGoalsBackend.Domain.Repositories
@@ -12,12 +13,12 @@ namespace MyGoalsBackend.Domain.Repositories
         {
             _authService = authService;
         }
-        public Task<string> Login(LoginUserDto userDto)
+        public Task<IBaseResult<String>> Login(LoginUserDto userDto)
         {
-           return _authService.Login(userDto);
+            return _authService.Login(userDto);
         }
 
-        public Task Register(CreateUserDto userDto)
+        public Task<IBaseResult<string>> Register(CreateUserDto userDto)
         {
             return _authService.Register(userDto);
         }

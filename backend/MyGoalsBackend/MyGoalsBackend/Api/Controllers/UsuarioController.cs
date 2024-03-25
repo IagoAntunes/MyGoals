@@ -1,6 +1,8 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using MyGoalsBackend.Api.Repositories;
-using MyGoalsBackend.Data.Dtos;
+using MyGoalsBackend.Data.Dtos.Requests;
+using MyGoalsBackend.Data.Dtos.Responses;
+using MyGoalsBackend.Data.Dtos.Results;
 
 namespace MyGoalsBackend.Api.Controllers
 {
@@ -17,16 +19,35 @@ namespace MyGoalsBackend.Api.Controllers
         }
 
         [HttpPost("register")]
-        public async Task<IActionResult> CreateUser(CreateUserDto userDto)
+        public async Task<ActionResult<IResponseDto>> CreateUser(CreateUserDto userDto)
         {
-            await _authRepository.Register(userDto);
-            return Ok("Usuário Cadastrado");
+            var result = await _authRepository.Register(userDto);
+            IResponseDto? response;
+            response = new BaseResponse(result.Message);
+            return Ok(response);
+   
         }
         [HttpPost("login")]
-        public async Task<IActionResult> SignInUser(LoginUserDto userDto)
+        public async Task<ActionResult<IResponseDto>> SignInUser(LoginUserDto userDto)
         {
-            var token = await _authRepository.Login(userDto);
-            return Ok(token);
+            var result = await _authRepository.Login(userDto);
+            IResponseDto? response;
+            if(result is SuccessResult<string>)
+            {
+                response  = new LoginResponseDto(
+                    message: result.Message,
+                    token: result.Value
+                );
+                return Ok(response);
+            }
+            else
+            {
+                response = new LoginResponseDto(
+                    errorMessage: ((FailureResult)result).Message
+                );
+            }
+
+            return Ok(response);
         }
     }
 }

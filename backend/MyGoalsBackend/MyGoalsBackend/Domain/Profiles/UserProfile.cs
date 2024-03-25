@@ -1,5 +1,5 @@
 ﻿using AutoMapper;
-using MyGoalsBackend.Data.Dtos;
+using MyGoalsBackend.Data.Dtos.Requests;
 using MyGoalsBackend.Domain.Models;
 
 namespace MyGoalsBackend.Domain.Profiles

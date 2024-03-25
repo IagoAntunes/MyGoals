@@ -1,10 +1,11 @@
-﻿using MyGoalsBackend.Data.Dtos;
+﻿using MyGoalsBackend.Data.Dtos.Requests;
+using MyGoalsBackend.Data.Dtos.Results;
 
 namespace MyGoalsBackend.Domain.IServices
 {
     public interface IAuthService
     {
-        Task Register(CreateUserDto userDto);
-        Task<string> Login(LoginUserDto userDto);
+        Task<IBaseResult<string>> Register(CreateUserDto userDto);
+        Task<IBaseResult<string>> Login(LoginUserDto userDto);
     }
 }

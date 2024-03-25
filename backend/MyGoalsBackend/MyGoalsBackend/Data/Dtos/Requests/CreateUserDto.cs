@@ -1,6 +1,6 @@
 ﻿using System.ComponentModel.DataAnnotations;
 
-namespace MyGoalsBackend.Data.Dtos
+namespace MyGoalsBackend.Data.Dtos.Requests
 {
     public class CreateUserDto
     {
