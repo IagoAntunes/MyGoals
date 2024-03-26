@@ -1,9 +1,9 @@
 ﻿using AutoMapper;
-using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
+using MyGoalsBackend.Api.Repositories;
 using MyGoalsBackend.Data;
 using MyGoalsBackend.Data.Dtos.Requests;
-using MyGoalsBackend.Domain.Models;
+using MyGoalsBackend.Data.Dtos.Responses;
 
 namespace MyGoalsBackend.Api.Controllers
 {
@@ -13,37 +13,26 @@ namespace MyGoalsBackend.Api.Controllers
     {
         public MyGoalsDbContext _context;
         public IMapper _mapper;
-        UserManager<UserModel> userManager;
+        public IGoalRepository _repository;
+
         public GoalController(
             MyGoalsDbContext context,
             IMapper mapper,
-            UserManager<UserModel> userManager
+            IGoalRepository repository
             )
         {
             this._context = context;
             this._mapper = mapper;
-            this.userManager = userManager;
+            this._repository = repository;
         }
 
 
         [HttpPost]
         public IActionResult CreateGoal([FromBody] CreateGoalDto goalDto)
         {
-            var user = userManager.Users.ToList().FirstOrDefault(u => u.Id == goalDto.UserId);
-            if (user == null)
-            {
-                return BadRequest("UserId inválido.");
-            }
-            GoalModel goal = _mapper.Map<GoalModel>(goalDto);
-            _context.Goals.Add(goal);
-            _context.SaveChanges();
-            return Ok();
-        }
-
-        [HttpGet]
-        public async Task<IActionResult> getUsers()
-        {
-            return Ok(_context.Users);
+            var result = _repository.createGoal(goalDto);
+            var response = new GoalResponseDto(result.Message);
+            return Ok(result.Message);
         }
 
     }

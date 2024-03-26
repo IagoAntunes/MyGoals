@@ -38,6 +38,10 @@ builder.Services.AddScoped<IAuthService, AuthService>();
 builder.Services.AddScoped<IAuthRepository, AuthRepository>();
 builder.Services.AddScoped<ITokenService, TokenService>();
 builder.Services.AddScoped<ITokenRepository, TokenRepository>();
+//Goal Injection
+builder.Services.AddScoped<IGoalService, GoalService>();
+builder.Services.AddScoped<IGoalRepository, GoalRepository>();
+
 
 
 
