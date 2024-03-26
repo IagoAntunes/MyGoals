@@ -1,15 +1,17 @@
-﻿namespace MyGoalsBackend.Data.Dtos.Results
+﻿using MyGoalsBackend.Data.Dtos.Responses;
+
+namespace MyGoalsBackend.Data.Dtos.Results
 {
     public class LoginResponseDto : IResponseDto
     {
-        public string? Token { get; set; }
+        public LoginUserResponseDto User { get;set; }
         ///Success Login
         public LoginResponseDto(
             string message,
-            string token
+            LoginUserResponseDto loginUser
             ) : base(message)
         {
-            Token = token;
+            this.User = loginUser;
         }
         //Failure Login
         public LoginResponseDto(

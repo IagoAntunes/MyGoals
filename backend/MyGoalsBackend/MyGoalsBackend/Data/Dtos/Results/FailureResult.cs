@@ -1,11 +1,12 @@
 ﻿namespace MyGoalsBackend.Data.Dtos.Results
 {
-    public class FailureResult : IBaseResult<String>
+    public class FailureResult<T>: IBaseResult
 
     {
         public FailureResult(
-        string errorMessage
-        ) : base(errorMessage) { }
+            string errorMessage,
+            T value
+            ) : base(errorMessage, value) { }
 
     }
 }

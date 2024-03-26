@@ -26,7 +26,7 @@ namespace MyGoalsBackend.Data.Services
             _mapper = mapper;
             _tokenService = tokenService;
         }
-        public async Task<IBaseResult<string>> Register(CreateUserDto userDto)
+        public async Task<IBaseResult> Register(CreateUserDto userDto)
         {
 
             var userExists = await _userManager.FindByNameAsync(userDto.Username);
@@ -45,21 +45,25 @@ namespace MyGoalsBackend.Data.Services
             return new Authenticated(new UserRegisteredResult());
         }
 
-        public async Task<IBaseResult<string>> Login(LoginUserDto userDto)
+        public async Task<IBaseResult> Login(LoginUserDto userDto)
         {
 
             var userExists = await _userManager.FindByNameAsync(userDto.Username);
 
             if(userExists == null)
             {
-                return new Unauthenticated(error: new UserNotFoundResult());
+                return new FailureResult<Unauthenticated>("Usuário inexistente",
+                    new Unauthenticated(
+                        new UserNotFoundResult()));
             }
-            var result = await _signInManager.CheckPasswordSignInAsync(userExists, userDto.Password, false);
+            var resultSignIn = await _signInManager.CheckPasswordSignInAsync(userExists, userDto.Password, false);
 
 
-            if (!result.Succeeded)
+            if (!resultSignIn.Succeeded)
             {
-                return new Unauthenticated(error: new WrongPasswordResult());
+                return new FailureResult<Unauthenticated>("Senha Incorreta",
+                    new Unauthenticated(
+                        new WrongPasswordResult()));
             }
             var user = _signInManager
                 .UserManager
@@ -69,8 +73,10 @@ namespace MyGoalsBackend.Data.Services
                 );
 
             var token = _tokenService.GenerateToken(user);
-
-            return new Authenticated(new UserLoggedResult(token));
+            var result = new SuccessResult<Authenticated>("Usuário Logado com sucesso",
+                new Authenticated(
+                    new UserLoggedResult(token, user.Id)));
+            return result;
         }
     }
 }

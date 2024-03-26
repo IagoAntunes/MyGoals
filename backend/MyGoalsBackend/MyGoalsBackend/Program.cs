@@ -17,6 +17,12 @@ builder.Services.AddDbContext<AuthDbContext>(
         opts.UseMySql(connectionString, ServerVersion.AutoDetect(connectionString));
     }
     );
+builder.Services.AddDbContext<MyGoalsDbContext>(
+    opts =>
+    {
+        opts.UseMySql(connectionString, ServerVersion.AutoDetect(connectionString));
+    }
+    );
 
 //Identity Configuration
 builder.Services

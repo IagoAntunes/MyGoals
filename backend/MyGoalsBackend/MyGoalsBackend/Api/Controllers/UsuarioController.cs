@@ -3,6 +3,7 @@ using MyGoalsBackend.Api.Repositories;
 using MyGoalsBackend.Data.Dtos.Requests;
 using MyGoalsBackend.Data.Dtos.Responses;
 using MyGoalsBackend.Data.Dtos.Results;
+using MyGoalsBackend.Data.Dtos.Results.AuthResults;
 
 namespace MyGoalsBackend.Api.Controllers
 {
@@ -32,22 +33,26 @@ namespace MyGoalsBackend.Api.Controllers
         {
             var result = await _authRepository.Login(userDto);
             IResponseDto? response;
-            if(result is SuccessResult<string>)
+            if(result is SuccessResult<Authenticated>)
             {
                 response  = new LoginResponseDto(
                     message: result.Message,
-                    token: result.Value
+                    loginUser: new LoginUserResponseDto(
+                        token: result.Value.Auth.Token,
+                        userId: result.Value.Auth.UserId
+                    )
                 );
                 return Ok(response);
             }
             else
             {
                 response = new LoginResponseDto(
-                    errorMessage: ((FailureResult)result).Message
+                    errorMessage: result.Message
                 );
             }
 
             return Ok(response);
         }
+  
     }
 }

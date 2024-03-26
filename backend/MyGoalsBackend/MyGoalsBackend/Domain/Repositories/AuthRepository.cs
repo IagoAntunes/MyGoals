@@ -13,12 +13,12 @@ namespace MyGoalsBackend.Domain.Repositories
         {
             _authService = authService;
         }
-        public Task<IBaseResult<String>> Login(LoginUserDto userDto)
+        public Task<IBaseResult> Login(LoginUserDto userDto)
         {
             return _authService.Login(userDto);
         }
 
-        public Task<IBaseResult<string>> Register(CreateUserDto userDto)
+        public Task<IBaseResult> Register(CreateUserDto userDto)
         {
             return _authService.Register(userDto);
         }

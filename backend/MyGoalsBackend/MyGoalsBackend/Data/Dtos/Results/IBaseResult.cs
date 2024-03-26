@@ -1,8 +1,8 @@
 ﻿namespace MyGoalsBackend.Data.Dtos.Results
 {
-    public abstract class IBaseResult<T>
+    public abstract class IBaseResult
     {
-        public IBaseResult(string message,T value)
+        public IBaseResult(string message,dynamic? value)
         {
             this.Message = message;
             this.Value = value;
@@ -12,6 +12,6 @@
             this.Message = message;
         }
         public string Message { get; set; }
-        public T? Value { get; set; }
+        public dynamic? Value { get; set; }
     }
 }

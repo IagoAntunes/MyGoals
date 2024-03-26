@@ -1,20 +1,25 @@
 ﻿namespace MyGoalsBackend.Data.Dtos.Results.AuthResults
 {
-
-    public class Unauthenticated : FailureResult
+    public abstract class IAuthState<T> : IBaseResult
     {
-        IErrorsAuth error;
+        protected IAuthState(string message, T? value) : base(message, value)
+        {
+        }
+    }
+    public class Unauthenticated : IAuthState<IErrorsAuth>
+    {
+        public IErrorsAuth error;
         public Unauthenticated(IErrorsAuth error)
-       : base(error.Message)
+       : base(error.Message,error)
         {
             this.error = error;
         }
     }
-    public class Authenticated : SuccessResult<string>
+    public class Authenticated : IAuthState<ISuccessAuth>
     {
-        ISuccessAuth Auth;
+        public ISuccessAuth Auth;
         public Authenticated(ISuccessAuth auth)
-       : base(auth.Message,auth.Token)
+       : base(auth.Message,auth)
         {
             this.Auth = auth;
         }
@@ -30,10 +35,11 @@
     }
     public abstract class ISuccessAuth
     {
-        protected ISuccessAuth(string message,string token)
+        protected ISuccessAuth(string message,string token,string userId)
         {
             this.Message = message;
             this.Token = token;
+            this.UserId = userId;
         }
         protected ISuccessAuth(string message)
         {
@@ -41,6 +47,7 @@
         }
         public string Message { get; set; }
         public string? Token { get; set; }
+        public string? UserId { get; set; }
     }
 
     public class UserNotFoundResult : IErrorsAuth
@@ -66,7 +73,7 @@
     }
     public class UserLoggedResult : ISuccessAuth
     {
-        public UserLoggedResult(string token) : base(message: "Usuário logado com sucesso!", token) { }
+        public UserLoggedResult(string token,string userId) : base(message: "Usuário logado com sucesso!", token,userId) { }
     }
     public class UserRegisteredResult : ISuccessAuth
     {
