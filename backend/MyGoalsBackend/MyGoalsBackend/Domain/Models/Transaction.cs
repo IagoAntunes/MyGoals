@@ -2,17 +2,17 @@
 
 namespace MyGoalsBackend.Domain.Models
 {
-    public class TransactionModel
+    public class Transaction
     {
         [Key]
         [Required]
         public int Id { get; set; }
-        public string UserId { get; set; }
-        public string MetaId { get; set; }
+        public int UserId { get; set; }
+        public int GoalId { get; set; }
         public string Value { get; set; }
         public string Date { get; set; }
         public string Type { get; set; }
-        public UserModel User { get; set; }
-        public GoalModel Goal { get; set; }
+        public User User { get; set; }
+        public Goal Goal { get; set; }
     }
 }

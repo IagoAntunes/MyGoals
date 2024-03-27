@@ -6,30 +6,26 @@ namespace MyGoalsBackend.Data
 {
     public class MyGoalsDbContext : DbContext
     {
-        public DbSet<TransactionModel> Transactions { get; set; }
-        public DbSet<GoalModel> Goals { get; set; }
-        public DbSet<UserModel> Users { get; set; }
-
+        public DbSet<User> Users { get; set; }
+        public DbSet<Transaction> Transactions { get; set; }
+        public DbSet<Goal> Goals { get; set; }
         public MyGoalsDbContext(DbContextOptions<MyGoalsDbContext> opts) : base(opts) { }
 
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             base.OnModelCreating(modelBuilder);
-            modelBuilder.Entity<GoalModel>()
+            modelBuilder.Entity<Goal>()
                        .HasOne(g => g.User)
                        .WithMany(u => u.Goals)
                        .HasForeignKey(g => g.UserId)
-                       .IsRequired();
+                       .HasPrincipalKey(u => u.Id);
 
-            modelBuilder.Entity<TransactionModel>()
-                .HasOne(t => t.User)
-                .WithMany(u => u.Transactions)
-                .HasForeignKey(t => t.UserId);
-
+            modelBuilder.Entity<Transaction>()
+                 .HasOne(t => t.User)
+                 .WithMany(u => u.Transactions)
+                 .HasForeignKey(t => t.UserId);
 
         }
-
-
     }
 }

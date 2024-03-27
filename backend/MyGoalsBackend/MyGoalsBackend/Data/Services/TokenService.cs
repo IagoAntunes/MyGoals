@@ -10,13 +10,12 @@ namespace MyGoalsBackend.Data.Services
 {
     public class TokenService : ITokenService
     {
-        public string GenerateToken(UserModel usuario)
+        public string GenerateToken(User usuario)
         {
             Claim[] claims =
             [
-                new Claim("username", usuario.UserName),
-                new Claim("id", usuario.Id),
-                new Claim("id", usuario.Id),
+                new Claim("username", usuario.Username),
+                new Claim("id", usuario.Id.ToString()),
             ];
 
             var chave = new SymmetricSecurityKey(

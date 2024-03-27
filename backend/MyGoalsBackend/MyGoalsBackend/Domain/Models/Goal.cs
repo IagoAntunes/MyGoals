@@ -2,15 +2,15 @@
 
 namespace MyGoalsBackend.Domain.Models
 {
-    public class GoalModel
+    public class Goal
     {
         [Key]
         [Required]
         public int Id { get; set; }
-        public string UserId { get; set; }
+        public int UserId { get; set; }
         public string Title { get; set; }
         public int Price { get; set; }
         public int CurrentValue { get; set; }
-        public UserModel User { get; set; }
+        public User User { get; set; }
     }
 }

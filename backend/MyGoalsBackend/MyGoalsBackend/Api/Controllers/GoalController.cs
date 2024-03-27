@@ -32,7 +32,15 @@ namespace MyGoalsBackend.Api.Controllers
         {
             var result = _repository.createGoal(goalDto);
             var response = new GoalResponseDto(result.Message);
-            return Ok(result.Message);
+
+            return Ok(response);
+        }
+        [HttpGet]
+        public IActionResult GetGoals([FromQuery] GetGoalsDto goalDto)
+        {
+            var result = _repository.GetGoals(goalDto);
+            var response = new GoalGetResponseDto(result.Message,result.Value);
+            return Ok(response);
         }
 
     }

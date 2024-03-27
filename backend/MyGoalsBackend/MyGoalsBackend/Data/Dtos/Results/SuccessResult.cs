@@ -1,12 +1,16 @@
 ﻿namespace MyGoalsBackend.Data.Dtos.Results
 {
-    public class SuccessResult<T> : IBaseResult
+    public class SuccessResult : IBaseResult
     {
         public SuccessResult(
-            string message,
-            T? value
-            ) : base(message,value) { }
-  
+            string message
+            ) : base(message) { }
+    }
 
+    public class SuccessGetResult<T> : IBaseGetResult<T>
+    {
+        public SuccessGetResult(string message,T value) : base(message,value)
+        {
+        }
     }
 }

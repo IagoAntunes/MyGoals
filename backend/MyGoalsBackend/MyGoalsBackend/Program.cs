@@ -1,17 +1,15 @@
-using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using MyGoalsBackend.Api.Repositories;
 using MyGoalsBackend.Data;
 using MyGoalsBackend.Data.Services;
 using MyGoalsBackend.Domain.IServices;
-using MyGoalsBackend.Domain.Models;
 using MyGoalsBackend.Domain.Repositories;
 
 var builder = WebApplication.CreateBuilder(args);
 
 //DbConnection
 var connectionString = builder.Configuration.GetConnectionString("UserConnection");
-builder.Services.AddDbContext<AuthDbContext>(
+builder.Services.AddDbContext<MyGoalsDbContext>(
     opts =>
     {
         opts.UseMySql(connectionString, ServerVersion.AutoDetect(connectionString));
@@ -24,12 +22,6 @@ builder.Services.AddDbContext<MyGoalsDbContext>(
     }
     );
 
-//Identity Configuration
-builder.Services
-    .AddIdentity<UserModel, IdentityRole>()
-    .AddEntityFrameworkStores<AuthDbContext>()
-    .AddDefaultTokenProviders();
-
 //AutoMapper
 builder.Services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
 
@@ -41,6 +33,9 @@ builder.Services.AddScoped<ITokenRepository, TokenRepository>();
 //Goal Injection
 builder.Services.AddScoped<IGoalService, GoalService>();
 builder.Services.AddScoped<IGoalRepository, GoalRepository>();
+//Goal Injection
+builder.Services.AddScoped<ITransactionService, TransactionService>();
+builder.Services.AddScoped<ITransactionRepository, TransactionRepository>();
 
 
 

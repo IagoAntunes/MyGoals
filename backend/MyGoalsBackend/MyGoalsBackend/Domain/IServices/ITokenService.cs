@@ -4,6 +4,6 @@ namespace MyGoalsBackend.Domain.IServices
 {
     public interface ITokenService
     {
-        string GenerateToken(UserModel usuario);
+        string GenerateToken(User usuario);
     }
 }

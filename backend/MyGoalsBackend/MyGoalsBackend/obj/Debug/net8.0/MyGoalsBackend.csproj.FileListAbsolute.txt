@@ -7,9 +7,6 @@ C:\iagoferreira\projetos\MyGoals\backend\MyGoalsBackend\MyGoalsBackend\bin\Debug
 C:\iagoferreira\projetos\MyGoals\backend\MyGoalsBackend\MyGoalsBackend\bin\Debug\net8.0\MyGoalsBackend.pdb
 C:\iagoferreira\projetos\MyGoals\backend\MyGoalsBackend\MyGoalsBackend\bin\Debug\net8.0\AutoMapper.dll
 C:\iagoferreira\projetos\MyGoals\backend\MyGoalsBackend\MyGoalsBackend\bin\Debug\net8.0\Humanizer.dll
-C:\iagoferreira\projetos\MyGoals\backend\MyGoalsBackend\MyGoalsBackend\bin\Debug\net8.0\Microsoft.AspNetCore.Cryptography.Internal.dll
-C:\iagoferreira\projetos\MyGoals\backend\MyGoalsBackend\MyGoalsBackend\bin\Debug\net8.0\Microsoft.AspNetCore.Cryptography.KeyDerivation.dll
-C:\iagoferreira\projetos\MyGoals\backend\MyGoalsBackend\MyGoalsBackend\bin\Debug\net8.0\Microsoft.AspNetCore.Identity.EntityFrameworkCore.dll
 C:\iagoferreira\projetos\MyGoals\backend\MyGoalsBackend\MyGoalsBackend\bin\Debug\net8.0\Microsoft.Bcl.AsyncInterfaces.dll
 C:\iagoferreira\projetos\MyGoals\backend\MyGoalsBackend\MyGoalsBackend\bin\Debug\net8.0\Microsoft.CodeAnalysis.dll
 C:\iagoferreira\projetos\MyGoals\backend\MyGoalsBackend\MyGoalsBackend\bin\Debug\net8.0\Microsoft.CodeAnalysis.CSharp.dll
@@ -20,9 +17,6 @@ C:\iagoferreira\projetos\MyGoals\backend\MyGoalsBackend\MyGoalsBackend\bin\Debug
 C:\iagoferreira\projetos\MyGoals\backend\MyGoalsBackend\MyGoalsBackend\bin\Debug\net8.0\Microsoft.EntityFrameworkCore.Design.dll
 C:\iagoferreira\projetos\MyGoals\backend\MyGoalsBackend\MyGoalsBackend\bin\Debug\net8.0\Microsoft.EntityFrameworkCore.Relational.dll
 C:\iagoferreira\projetos\MyGoals\backend\MyGoalsBackend\MyGoalsBackend\bin\Debug\net8.0\Microsoft.Extensions.DependencyModel.dll
-C:\iagoferreira\projetos\MyGoals\backend\MyGoalsBackend\MyGoalsBackend\bin\Debug\net8.0\Microsoft.Extensions.Identity.Core.dll
-C:\iagoferreira\projetos\MyGoals\backend\MyGoalsBackend\MyGoalsBackend\bin\Debug\net8.0\Microsoft.Extensions.Identity.Stores.dll
-C:\iagoferreira\projetos\MyGoals\backend\MyGoalsBackend\MyGoalsBackend\bin\Debug\net8.0\Microsoft.Extensions.Options.dll
 C:\iagoferreira\projetos\MyGoals\backend\MyGoalsBackend\MyGoalsBackend\bin\Debug\net8.0\Microsoft.OpenApi.dll
 C:\iagoferreira\projetos\MyGoals\backend\MyGoalsBackend\MyGoalsBackend\bin\Debug\net8.0\Mono.TextTemplating.dll
 C:\iagoferreira\projetos\MyGoals\backend\MyGoalsBackend\MyGoalsBackend\bin\Debug\net8.0\MySqlConnector.dll

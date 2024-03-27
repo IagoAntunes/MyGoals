@@ -4,6 +4,7 @@ using MyGoalsBackend.Data.Dtos.Requests;
 using MyGoalsBackend.Data.Dtos.Responses;
 using MyGoalsBackend.Data.Dtos.Results;
 using MyGoalsBackend.Data.Dtos.Results.AuthResults;
+using SignInResult = MyGoalsBackend.Data.Dtos.Results.AuthResults.SignInResult;
 
 namespace MyGoalsBackend.Api.Controllers
 {
@@ -33,13 +34,13 @@ namespace MyGoalsBackend.Api.Controllers
         {
             var result = await _authRepository.Login(userDto);
             IResponseDto? response;
-            if(result is SuccessResult<Authenticated>)
+            if(result is SuccessResult)
             {
                 response  = new LoginResponseDto(
                     message: result.Message,
                     loginUser: new LoginUserResponseDto(
-                        token: result.Value.Auth.Token,
-                        userId: result.Value.Auth.UserId
+                        token: (result as SignInResult).Token,
+                        userId: (result as SignInResult).UserId
                     )
                 );
                 return Ok(response);

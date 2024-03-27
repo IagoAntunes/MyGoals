@@ -12,7 +12,7 @@ namespace MyGoalsBackend.Domain.Repositories
             _tokenService = token;
         }
 
-        public string GenerateToken(UserModel usuario)
+        public string GenerateToken(User usuario)
         {
             return _tokenService.GenerateToken(usuario);
         }

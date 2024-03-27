@@ -1,9 +1,9 @@
 ﻿namespace MyGoalsBackend.Data.Dtos.Results.GoalResults
 {
 
-    public abstract class IGoalResults<T> : IBaseResult
+    public abstract class IGoalResults : IBaseResult
     {
-        protected IGoalResults(string message, T value) : base(message, value)
+        protected IGoalResults(string message) : base(message)
         {
         }
     }

@@ -8,8 +8,8 @@ namespace MyGoalsBackend.Domain.Profiles
     {
         public UserProfile()
         {
-            CreateMap<CreateUserDto, UserModel>();
-            CreateMap<LoginUserDto, UserModel>();
+            CreateMap<CreateUserDto, User>();
+            CreateMap<LoginUserDto, User>();
         }
     }
 }

@@ -2,6 +2,7 @@
 using MyGoalsBackend.Data.Dtos.Requests;
 using MyGoalsBackend.Data.Dtos.Results;
 using MyGoalsBackend.Domain.IServices;
+using MyGoalsBackend.Domain.Models;
 
 namespace MyGoalsBackend.Domain.Repositories
 {
@@ -15,6 +16,11 @@ namespace MyGoalsBackend.Domain.Repositories
         public IBaseResult createGoal(CreateGoalDto goalDto)
         {
             return _goalService.createGoal(goalDto);
+        }
+
+        public IBaseGetResult<ICollection<Goal>> GetGoals(GetGoalsDto goalDto)
+        {
+            return _goalService.GetGoals(goalDto);
         }
     }
 }

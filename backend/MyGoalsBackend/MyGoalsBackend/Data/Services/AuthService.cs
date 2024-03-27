@@ -1,5 +1,5 @@
 ﻿using AutoMapper;
-using Microsoft.AspNetCore.Identity;
+using Microsoft.EntityFrameworkCore;
 using MyGoalsBackend.Data.Dtos.Requests;
 using MyGoalsBackend.Data.Dtos.Results;
 using MyGoalsBackend.Data.Dtos.Results.AuthResults;
@@ -10,73 +10,63 @@ namespace MyGoalsBackend.Data.Services
 {
     public class AuthService : IAuthService
     {
+        private MyGoalsDbContext _authContext;
         private IMapper _mapper;
-        private UserManager<UserModel> _userManager;
-        private SignInManager<UserModel> _signInManager;
         private ITokenService _tokenService;
 
         public AuthService(
-            UserManager<UserModel> userManager,
             IMapper mapper,
-            SignInManager<UserModel> signInManager,
-            ITokenService tokenService)
+            ITokenService tokenService,
+            MyGoalsDbContext authContext)
         {
-            _userManager = userManager;
-            _signInManager = signInManager;
-            _mapper = mapper;
-            _tokenService = tokenService;
+            this._mapper = mapper;
+            this._tokenService = tokenService;
+            this._authContext = authContext;
         }
         public async Task<IBaseResult> Register(CreateUserDto userDto)
         {
 
-            var userExists = await _userManager.FindByNameAsync(userDto.Username);
+            var userExists =  _authContext.Users.FirstOrDefault(user =>user.Username.ToLower().Equals(userDto.Username.ToLower()));
             if(userExists != null)
             {
-                return new Unauthenticated(new UserAlreadyExistsResult());
+                return new FailureResult("Usuário inexistente!");
             }
 
-            UserModel user = _mapper.Map<UserModel>(userDto);
-            var result = await _userManager.CreateAsync(user, userDto.Password);
-
-            if (!result.Succeeded)
-            {
-                return new Unauthenticated(new OtherErrorResult());
-            }
-            return new Authenticated(new UserRegisteredResult());
+            User user = _mapper.Map<User>(userDto);
+            _authContext.Add(user);
+            _authContext.SaveChanges();
+            //return new Unauthenticated(new OtherErrorResult());
+            return new SuccessResult("Cadastrado com sucesso!");
         }
 
         public async Task<IBaseResult> Login(LoginUserDto userDto)
         {
 
-            var userExists = await _userManager.FindByNameAsync(userDto.Username);
+            var userExists = _authContext.Users.FirstOrDefault(user => user.Username.ToLower().Equals(userDto.Username.ToLower()));
 
-            if(userExists == null)
+            if (userExists == null)
             {
-                return new FailureResult<Unauthenticated>("Usuário inexistente",
-                    new Unauthenticated(
-                        new UserNotFoundResult()));
+                return new FailureResult("Usuário ja existe!");
             }
-            var resultSignIn = await _signInManager.CheckPasswordSignInAsync(userExists, userDto.Password, false);
 
-
-            if (!resultSignIn.Succeeded)
+            if (!userExists.Password.Equals(userDto.Password))
             {
-                return new FailureResult<Unauthenticated>("Senha Incorreta",
-                    new Unauthenticated(
-                        new WrongPasswordResult()));
+                return new FailureResult("Senha Incorreta!");
             }
-            var user = _signInManager
-                .UserManager
-                .Users
-                .FirstOrDefault(
-                user => user.NormalizedUserName == userDto.Username.ToUpper()
-                );
 
-            var token = _tokenService.GenerateToken(user);
-            var result = new SuccessResult<Authenticated>("Usuário Logado com sucesso",
-                new Authenticated(
-                    new UserLoggedResult(token, user.Id)));
+            var token = _tokenService.GenerateToken(userExists);
+            var result = new SignInResult("Usuário Logado com sucesso",token,userExists.Id);
             return result;
+        }
+
+        public IBaseResult ValidateUser(int userId)
+        {
+            var result = _authContext.Users.FirstOrDefault(user => user.Id == userId);
+            if(result == null)
+            {
+                return new FailureResult("Usuário inexistente");
+            }
+            return new SuccessResult("");
         }
     }
 }

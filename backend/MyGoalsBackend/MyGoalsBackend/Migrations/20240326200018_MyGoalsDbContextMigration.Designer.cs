@@ -3,17 +3,20 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using MyGoalsBackend.Data;
 
 #nullable disable
 
-namespace MyGoalsBackend.Migrations.MyGoalsDb
+namespace MyGoalsBackend.Migrations
 {
     [DbContext(typeof(MyGoalsDbContext))]
-    partial class MyGoalsDbContextModelSnapshot : ModelSnapshot
+    [Migration("20240326200018_MyGoalsDbContextMigration")]
+    partial class MyGoalsDbContextMigration
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -22,7 +25,7 @@ namespace MyGoalsBackend.Migrations.MyGoalsDb
 
             MySqlModelBuilderExtensions.AutoIncrementColumns(modelBuilder);
 
-            modelBuilder.Entity("MyGoalsBackend.Domain.Models.GoalModel", b =>
+            modelBuilder.Entity("MyGoalsBackend.Domain.Models.Goal", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -40,9 +43,8 @@ namespace MyGoalsBackend.Migrations.MyGoalsDb
                         .IsRequired()
                         .HasColumnType("longtext");
 
-                    b.Property<string>("UserId")
-                        .IsRequired()
-                        .HasColumnType("varchar(255)");
+                    b.Property<int>("UserId")
+                        .HasColumnType("int");
 
                     b.HasKey("Id");
 
@@ -51,7 +53,7 @@ namespace MyGoalsBackend.Migrations.MyGoalsDb
                     b.ToTable("Goals");
                 });
 
-            modelBuilder.Entity("MyGoalsBackend.Domain.Models.TransactionModel", b =>
+            modelBuilder.Entity("MyGoalsBackend.Domain.Models.Transaction", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -66,17 +68,12 @@ namespace MyGoalsBackend.Migrations.MyGoalsDb
                     b.Property<int>("GoalId")
                         .HasColumnType("int");
 
-                    b.Property<string>("MetaId")
-                        .IsRequired()
-                        .HasColumnType("longtext");
-
                     b.Property<string>("Type")
                         .IsRequired()
                         .HasColumnType("longtext");
 
-                    b.Property<string>("UserId")
-                        .IsRequired()
-                        .HasColumnType("varchar(255)");
+                    b.Property<int>("UserId")
+                        .HasColumnType("int");
 
                     b.Property<string>("Value")
                         .IsRequired()
@@ -91,64 +88,33 @@ namespace MyGoalsBackend.Migrations.MyGoalsDb
                     b.ToTable("Transactions");
                 });
 
-            modelBuilder.Entity("MyGoalsBackend.Domain.Models.UserModel", b =>
+            modelBuilder.Entity("MyGoalsBackend.Domain.Models.User", b =>
                 {
-                    b.Property<string>("Id")
-                        .HasColumnType("varchar(255)");
-
-                    b.Property<int>("AccessFailedCount")
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
                         .HasColumnType("int");
 
-                    b.Property<string>("ConcurrencyStamp")
-                        .HasColumnType("longtext");
+                    MySqlPropertyBuilderExtensions.UseMySqlIdentityColumn(b.Property<int>("Id"));
 
                     b.Property<DateTime>("DateBirth")
                         .HasColumnType("datetime(6)");
 
-                    b.Property<string>("Email")
+                    b.Property<string>("Password")
+                        .IsRequired()
                         .HasColumnType("longtext");
 
-                    b.Property<bool>("EmailConfirmed")
-                        .HasColumnType("tinyint(1)");
-
-                    b.Property<bool>("LockoutEnabled")
-                        .HasColumnType("tinyint(1)");
-
-                    b.Property<DateTimeOffset?>("LockoutEnd")
-                        .HasColumnType("datetime(6)");
-
-                    b.Property<string>("NormalizedEmail")
-                        .HasColumnType("longtext");
-
-                    b.Property<string>("NormalizedUserName")
-                        .HasColumnType("longtext");
-
-                    b.Property<string>("PasswordHash")
-                        .HasColumnType("longtext");
-
-                    b.Property<string>("PhoneNumber")
-                        .HasColumnType("longtext");
-
-                    b.Property<bool>("PhoneNumberConfirmed")
-                        .HasColumnType("tinyint(1)");
-
-                    b.Property<string>("SecurityStamp")
-                        .HasColumnType("longtext");
-
-                    b.Property<bool>("TwoFactorEnabled")
-                        .HasColumnType("tinyint(1)");
-
-                    b.Property<string>("UserName")
+                    b.Property<string>("Username")
+                        .IsRequired()
                         .HasColumnType("longtext");
 
                     b.HasKey("Id");
 
-                    b.ToTable("AspNetUsers", (string)null);
+                    b.ToTable("Users");
                 });
 
-            modelBuilder.Entity("MyGoalsBackend.Domain.Models.GoalModel", b =>
+            modelBuilder.Entity("MyGoalsBackend.Domain.Models.Goal", b =>
                 {
-                    b.HasOne("MyGoalsBackend.Domain.Models.UserModel", "User")
+                    b.HasOne("MyGoalsBackend.Domain.Models.User", "User")
                         .WithMany("Goals")
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
@@ -157,15 +123,15 @@ namespace MyGoalsBackend.Migrations.MyGoalsDb
                     b.Navigation("User");
                 });
 
-            modelBuilder.Entity("MyGoalsBackend.Domain.Models.TransactionModel", b =>
+            modelBuilder.Entity("MyGoalsBackend.Domain.Models.Transaction", b =>
                 {
-                    b.HasOne("MyGoalsBackend.Domain.Models.GoalModel", "Goal")
+                    b.HasOne("MyGoalsBackend.Domain.Models.Goal", "Goal")
                         .WithMany()
                         .HasForeignKey("GoalId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("MyGoalsBackend.Domain.Models.UserModel", "User")
+                    b.HasOne("MyGoalsBackend.Domain.Models.User", "User")
                         .WithMany("Transactions")
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
@@ -176,7 +142,7 @@ namespace MyGoalsBackend.Migrations.MyGoalsDb
                     b.Navigation("User");
                 });
 
-            modelBuilder.Entity("MyGoalsBackend.Domain.Models.UserModel", b =>
+            modelBuilder.Entity("MyGoalsBackend.Domain.Models.User", b =>
                 {
                     b.Navigation("Goals");
 

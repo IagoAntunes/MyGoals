@@ -2,12 +2,12 @@
 {
     public class LoginUserResponseDto
     {
-        public LoginUserResponseDto(string token,string userId)
+        public LoginUserResponseDto(string token, int userId)
         {
             this.Token = token;
             this.UserId = userId;
         }
         public string Token { get; set; }
-        public string UserId { get; set; }
+        public int UserId { get; set; }
     }
 }

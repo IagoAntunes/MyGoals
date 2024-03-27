@@ -4,13 +4,11 @@ using MyGoalsBackend.Domain.Models;
 
 namespace MyGoalsBackend.Domain.Profiles
 {
-    public class GoalProfile : Profile
+    public class TransationProfile : Profile
     {
-        public GoalProfile()
+        public TransationProfile()
         {
-            CreateMap<CreateGoalDto,Goal>();
+            CreateMap<CreateTransactionDto, Transaction>();
         }
-
-
     }
 }

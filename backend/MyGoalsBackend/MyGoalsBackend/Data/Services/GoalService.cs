@@ -1,6 +1,4 @@
 ﻿using AutoMapper;
-using Microsoft.AspNetCore.Identity;
-using Microsoft.EntityFrameworkCore;
 using MyGoalsBackend.Data.Dtos.Requests;
 using MyGoalsBackend.Data.Dtos.Results;
 using MyGoalsBackend.Data.Dtos.Results.AuthResults;
@@ -11,33 +9,45 @@ namespace MyGoalsBackend.Data.Services
 {
     public class GoalService : IGoalService
     {
-        UserManager<UserModel> _userManager;
         MyGoalsDbContext _context;
         IMapper _mapper;
         public GoalService(
-            UserManager<UserModel> userManager,
             MyGoalsDbContext context,
             IMapper mapper
             )
         {
-            this._userManager = userManager;
             this._context = context;
             this._mapper = mapper;
         }
         public IBaseResult createGoal(CreateGoalDto goalDto)
         {
-            var user =  _userManager.Users.ToList().FirstOrDefault(u => u.Id == goalDto.UserId);
+            var user = _context.Users.ToList().FirstOrDefault(u => u.Id.Equals(goalDto.UserId));
 
             if(user == null)
             {
-                return new FailureResult<Unauthenticated>("Usuário inexistente",
-                    new Unauthenticated(
-                        new UserNotFoundResult()));
+                return new FailureResult("Usuário inexistente");
             }
-            GoalModel goal = _mapper.Map<GoalModel>(goalDto);
+            Goal goal = _mapper.Map<Goal>(goalDto);
             _context.Goals.Add(goal);
             _context.SaveChanges();
-            return new SuccessResult<string?>("Meta adicionada com sucesso!",null);
+            return new SuccessResult("Meta adicionada com sucesso!");
+        }
+
+        public IBaseGetResult<ICollection<Goal>> GetGoals(GetGoalsDto goalDto)
+        {
+            var goals = _context.Goals.ToList();
+            return new SuccessGetResult<ICollection<Goal>>("Consulta realizaa com sucesso", goals);
+        }
+
+        public IBaseResult ValidateGoal(int goalId)
+        {
+            var result = _context.Goals.FirstOrDefault(user => user.Id == goalId);
+            if (result == null)
+            {
+                //TODO
+                return new FailureResult("Meta Inexistente");
+            }
+            return new SuccessResult("");
         }
     }
 }
