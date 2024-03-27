@@ -9,5 +9,6 @@ namespace MyGoalsBackend.Domain.IServices
         Task<IBaseResult> Register(CreateUserDto userDto);
         Task<IBaseResult> Login(LoginUserDto userDto);
         IBaseResult ValidateUser(int userId);
+        IBaseResult DeleteUser(int userId);
     }
 }

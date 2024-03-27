@@ -26,5 +26,16 @@ namespace MyGoalsBackend.Api.Controllers
             var response = new TransactionResponseDto(result.Message);
             return Ok(response);
         }
+        [HttpGet]
+        public IActionResult GetTransactionsByUserId([FromQuery] int userId)
+        {
+            var result = _repository.GetTransactionsByUserId(userId);
+            if(result.Value == null)
+            {
+                return Ok(new GetTransactionsResponseDto(result.Message));
+            }
+            var response = new GetTransactionsResponseDto(result.Value,result.Message);
+            return Ok(response);
+        }
     }
 }

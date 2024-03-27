@@ -7,5 +7,6 @@ namespace MyGoalsBackend.Api.Repositories
     {
         Task<IBaseResult> Register(CreateUserDto userDto);
         Task<IBaseResult> Login(LoginUserDto userDto);
+        IBaseResult DeleteUser(int userId);
     }
 }

@@ -8,11 +8,32 @@ namespace MyGoalsBackend.Domain.Repositories
     public class AuthRepository : IAuthRepository
     {
         private IAuthService _authService;
+        private IGoalService _goalService;
+        private ITransactionService _transactionService;
 
-        public AuthRepository(IAuthService authService)
+        public AuthRepository(
+            IAuthService authService,
+            IGoalService goalService,
+            ITransactionService transactionService
+            )
         {
-            _authService = authService;
+            this._authService = authService;
+            this._transactionService = transactionService;
+            this._goalService = goalService;
         }
+
+        public IBaseResult DeleteUser(int userId)
+        {
+            var userExists = _authService.ValidateUser(userId);
+            if(userExists is FailureResult)
+            {
+                return userExists;
+            }
+            _goalService.DeleteAllGoalsByUserId(userId);
+            _transactionService.DeleteAllTransactionsByUserId(userId);
+            return _authService.DeleteUser(userId);
+        }
+
         public Task<IBaseResult> Login(LoginUserDto userDto)
         {
             return _authService.Login(userDto);

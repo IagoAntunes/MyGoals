@@ -1,4 +1,5 @@
 ﻿using System.ComponentModel.DataAnnotations;
+using System.Text.Json.Serialization;
 
 namespace MyGoalsBackend.Domain.Models
 {
@@ -10,8 +11,10 @@ namespace MyGoalsBackend.Domain.Models
         public string Username { get; set; }
         public string Password { get; set; }
         public DateTime DateBirth { get; set; }
-        public ICollection<Transaction> Transactions { get; set; }
-        public ICollection<Goal> Goals { get; set; }
+        [JsonIgnore]
+        public virtual ICollection<Transaction> Transactions { get; set; }
+        [JsonIgnore]
+        public virtual ICollection<Goal> Goals { get; set; }
 
     }
 }

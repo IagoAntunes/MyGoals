@@ -11,6 +11,6 @@ namespace MyGoalsBackend.Domain.Models
         public string Title { get; set; }
         public int Price { get; set; }
         public int CurrentValue { get; set; }
-        public User User { get; set; }
+        public virtual User User { get; set; }
     }
 }

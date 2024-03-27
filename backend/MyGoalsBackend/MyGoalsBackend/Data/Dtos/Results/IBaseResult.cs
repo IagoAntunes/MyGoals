@@ -8,6 +8,16 @@
         }
         public string Message { get; set; }
     }
+    public abstract class IBaseTResult<T>
+    {
+        public T Value { get; set; }
+        public IBaseTResult(string message, T value)
+        {
+            this.Message = message;
+            this.Value = value;
+        }
+        public string Message { get; set; }
+    }
     public abstract class IBaseGetResult<T> : IBaseResult
     {
         public T Value { get; set; }

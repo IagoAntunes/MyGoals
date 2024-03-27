@@ -68,5 +68,13 @@ namespace MyGoalsBackend.Data.Services
             }
             return new SuccessResult("");
         }
+
+        public IBaseResult DeleteUser(int userId)
+        {
+            var user = _authContext.Users.First(user => user.Id == userId);
+            _authContext.Users.Remove(user);
+            _authContext.SaveChanges();
+            return new SuccessResult("Usuário deletado");
+        }
     }
 }

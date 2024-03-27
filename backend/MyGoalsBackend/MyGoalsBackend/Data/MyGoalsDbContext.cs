@@ -16,10 +16,9 @@ namespace MyGoalsBackend.Data
         {
             base.OnModelCreating(modelBuilder);
             modelBuilder.Entity<Goal>()
-                       .HasOne(g => g.User)
-                       .WithMany(u => u.Goals)
-                       .HasForeignKey(g => g.UserId)
-                       .HasPrincipalKey(u => u.Id);
+                   .HasOne(g => g.User)                     // Um Goal tem um User
+                   .WithMany(u => u.Goals)                  // Um User pode ter muitos Goals
+                   .HasForeignKey(g => g.UserId);          // A chave estrangeira em Goal é UserId
 
             modelBuilder.Entity<Transaction>()
                  .HasOne(t => t.User)

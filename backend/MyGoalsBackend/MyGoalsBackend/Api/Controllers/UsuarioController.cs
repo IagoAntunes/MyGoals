@@ -54,6 +54,12 @@ namespace MyGoalsBackend.Api.Controllers
 
             return Ok(response);
         }
+        [HttpDelete("{userId}")]
+        public IActionResult DeleteUser(int userId)
+        {
+            var result = _authRepository.DeleteUser(userId);
+            return Ok(new BaseResponse(result.Message));
+        }
   
     }
 }

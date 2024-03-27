@@ -4,6 +4,7 @@ using MyGoalsBackend.Data.Dtos.Requests;
 using MyGoalsBackend.Data.Dtos.Results;
 using MyGoalsBackend.Data.Dtos.Results.AuthResults;
 using MyGoalsBackend.Domain.IServices;
+using MyGoalsBackend.Domain.Models;
 
 namespace MyGoalsBackend.Domain.Repositories
 {
@@ -40,6 +41,21 @@ namespace MyGoalsBackend.Domain.Repositories
             {
                 return result;
             }
+        }
+
+        public IBaseResult GetTransactions(int userId)
+        {
+            throw new NotImplementedException();
+        }
+
+        public IBaseTResult<ICollection<Transaction>?> GetTransactionsByUserId(int userId)
+        {
+            var result = _authService.ValidateUser(userId);
+            if(result  is FailureResult)
+            {
+                return new FailureTResult<ICollection<Transaction>?>("Usuário não encontrado",null);
+            }
+            return _service.GetTransactionsByUserId(userId);
         }
     }
 }

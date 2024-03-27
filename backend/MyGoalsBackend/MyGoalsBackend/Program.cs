@@ -22,6 +22,12 @@ builder.Services.AddDbContext<MyGoalsDbContext>(
     }
     );
 
+builder.Services.AddControllers()
+    .AddJsonOptions(options =>
+    {
+        options.JsonSerializerOptions.IgnoreNullValues = true;
+    });
+
 //AutoMapper
 builder.Services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
 

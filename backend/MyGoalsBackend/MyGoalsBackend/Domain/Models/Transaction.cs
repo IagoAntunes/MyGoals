@@ -1,4 +1,5 @@
 ﻿using System.ComponentModel.DataAnnotations;
+using System.Text.Json.Serialization;
 
 namespace MyGoalsBackend.Domain.Models
 {
@@ -12,7 +13,9 @@ namespace MyGoalsBackend.Domain.Models
         public string Value { get; set; }
         public string Date { get; set; }
         public string Type { get; set; }
-        public User User { get; set; }
-        public Goal Goal { get; set; }
+        [JsonIgnore]
+        public virtual User User { get; set; }
+        [JsonIgnore]
+        public virtual Goal Goal { get; set; }
     }
 }
