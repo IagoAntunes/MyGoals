@@ -57,6 +57,21 @@ namespace MyGoalsBackend.Data.Services
             return new SuccessGetResult<ICollection<Goal>>("Consulta realizaa com sucesso", goals);
         }
 
+        public IBaseResult UpdateCurrentValueGoal(int goalid, int valueTransaction,string type)
+        {
+            var goal = _context.Goals.First(goal => goal.Id == goalid);
+
+            if(type == "E")
+            {
+                goal.CurrentValue += valueTransaction;
+            }
+            else
+            {
+                goal.CurrentValue -= valueTransaction;
+            }
+            return new SuccessResult("Meta atualizada");
+        }
+
         public IBaseTResult<Goal?> UpdateGoal(UpdateGoalDto goalDto)
         {
             var goal = _context.Goals.FirstOrDefault(goal => goal.Id == goalDto.Id);
@@ -79,5 +94,6 @@ namespace MyGoalsBackend.Data.Services
             }
             return new SuccessResult("");
         }
+
     }
 }

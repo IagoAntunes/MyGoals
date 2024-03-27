@@ -14,7 +14,7 @@ using System.Reflection;
 [assembly: System.Reflection.AssemblyCompanyAttribute("MyGoalsBackend")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Debug")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+8b47685068d606dc0c18b86072e063e7a7aaaf3b")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+b005077360e2613e03044f0f14cf0a5975adb2c3")]
 [assembly: System.Reflection.AssemblyProductAttribute("MyGoalsBackend")]
 [assembly: System.Reflection.AssemblyTitleAttribute("MyGoalsBackend")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]

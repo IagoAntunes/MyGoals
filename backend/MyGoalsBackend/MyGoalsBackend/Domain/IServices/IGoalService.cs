@@ -11,6 +11,7 @@ namespace MyGoalsBackend.Domain.IServices
         IBaseResult DeleteAllGoalsByUserId(int userId);
         IBaseGetResult<ICollection<Goal>> GetGoals(GetGoalsDto goalDto);
         IBaseTResult<Goal?> UpdateGoal(UpdateGoalDto goalDto);
+        IBaseResult UpdateCurrentValueGoal(int goalid,int valueTransaction,string type);
         IBaseResult ValidateGoal(int goalId);
     }
 }

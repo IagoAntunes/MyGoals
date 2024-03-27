@@ -2,6 +2,7 @@
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using MyGoalsBackend.Data;
 
@@ -10,9 +11,11 @@ using MyGoalsBackend.Data;
 namespace MyGoalsBackend.Migrations
 {
     [DbContext(typeof(MyGoalsDbContext))]
-    partial class MyGoalsDbContextModelSnapshot : ModelSnapshot
+    [Migration("20240327145745_RemoveDateBirth")]
+    partial class RemoveDateBirth
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder

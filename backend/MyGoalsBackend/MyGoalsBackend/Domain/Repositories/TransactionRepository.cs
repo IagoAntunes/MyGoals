@@ -30,6 +30,11 @@ namespace MyGoalsBackend.Domain.Repositories
                 var result2 = _goalService.ValidateGoal(transactionDto.GoalId);
                 if(result2 is SuccessResult)
                 {
+                    _goalService.UpdateCurrentValueGoal(
+                        transactionDto.GoalId,
+                        transactionDto.Value,
+                        transactionDto.Type
+                    );
                     return _service.CreateTransition(transactionDto);
                 }
                 else
