@@ -1,12 +1,12 @@
 abstract class ILoginEvent {
-  String email;
+  String userName;
   String password;
   ILoginEvent({
-    required this.email,
+    required this.userName,
     required this.password,
   });
 }
 
 class LoginEvent extends ILoginEvent {
-  LoginEvent({required super.email, required super.password});
+  LoginEvent({required super.userName, required super.password});
 }

@@ -1,7 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:mygoalsapp/core/widgets/custom_snackbar_widget.dart';
 import 'package:mygoalsapp/core/widgets/custom_textfield_widget.dart';
 import 'package:mygoalsapp/core/widgets/password_textfield_widget.dart';
+import 'package:mygoalsapp/src/features/auth/auth/data/service/i_auth_service.dart';
+import 'package:mygoalsapp/src/features/auth/auth/domain/repositories/i_auth_repository.dart';
 import 'package:mygoalsapp/src/features/auth/register/presenter/bloc/register_bloc.dart';
 import 'package:mygoalsapp/src/features/auth/register/presenter/bloc/register_event.dart';
 import 'package:mygoalsapp/src/features/auth/register/presenter/bloc/register_state.dart';
@@ -10,11 +13,15 @@ import 'package:mygoalsapp/src/features/auth/register/presenter/bloc/register_va
 class RegisterPage extends StatelessWidget {
   RegisterPage({super.key});
   final _formKey = GlobalKey<FormState>();
-  final emailController = TextEditingController();
+  final userNameController = TextEditingController();
   final passwordController = TextEditingController();
   final passwordConfirmController = TextEditingController();
 
-  final registerBloc = RegisterBloc();
+  final registerBloc = RegisterBloc(
+    authRepository: AuthRepository(
+      authService: AuthService(),
+    ),
+  );
 
   @override
   Widget build(BuildContext context) {
@@ -32,10 +39,9 @@ class RegisterPage extends StatelessWidget {
                 if (state is FailureRegisterValidation) {
                   switch (state.state) {
                     case InvalidPasswordsState():
-                      ScaffoldMessenger.of(context).showSnackBar(
-                        const SnackBar(
-                          content: Text("Senhas diferentes"),
-                        ),
+                      AppSnackBars.showSimpleSnackBar(
+                        context,
+                        SimpleSnackbars.error(),
                       );
                       break;
                     default:
@@ -43,23 +49,21 @@ class RegisterPage extends StatelessWidget {
                 } else if (state is SuccessRegisterValidation) {
                   registerBloc.add(
                     RegisterEvent(
-                      email: emailController.text,
+                      userName: userNameController.text,
                       password: passwordController.text,
                     ),
                   );
                 }
                 if (state is SuccessLoginRegisterListener) {
-                  ScaffoldMessenger.of(context).showSnackBar(
-                    const SnackBar(
-                      content: Text("Usuário cadastrado"),
-                    ),
+                  AppSnackBars.showSimpleSnackBar(
+                    context,
+                    SimpleSnackbars.success(title: state.message),
                   );
                   Navigator.pop(context);
                 } else if (state is FailureLoginRegisterListener) {
-                  ScaffoldMessenger.of(context).showSnackBar(
-                    const SnackBar(
-                      content: Text("Algo de errado"),
-                    ),
+                  AppSnackBars.showSimpleSnackBar(
+                    context,
+                    SimpleSnackbars.error(),
                   );
                 }
               },
@@ -90,12 +94,12 @@ class RegisterPage extends StatelessWidget {
                     ),
                     const SizedBox(height: 32),
                     CustomTextFormField(
-                      controller: emailController,
-                      label: 'Email',
-                      prefixIcon: Icons.email,
+                      controller: userNameController,
+                      label: 'Nome',
+                      prefixIcon: Icons.person,
                       enabled: state is! LoadingRegisterState,
-                      validator: (email) {
-                        if (email == null || email.isEmpty) {
+                      validator: (userName) {
+                        if (userName == null || userName.isEmpty) {
                           return '*obrigatório';
                         }
                         return null;
@@ -121,7 +125,7 @@ class RegisterPage extends StatelessWidget {
                           if (_formKey.currentState!.validate()) {
                             registerBloc.add(
                               ValidaRegisterEvent(
-                                email: emailController.text,
+                                userName: userNameController.text,
                                 password1: passwordController.text,
                                 password2: passwordConfirmController.text,
                               ),

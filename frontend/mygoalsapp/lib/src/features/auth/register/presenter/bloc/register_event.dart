@@ -1,17 +1,17 @@
 abstract class IRegisterEvent {}
 
 class RegisterEvent extends IRegisterEvent {
-  String email;
+  String userName;
   String password;
-  RegisterEvent({required this.email, required this.password});
+  RegisterEvent({required this.userName, required this.password});
 }
 
 class ValidaRegisterEvent extends IRegisterEvent {
-  String email;
+  String userName;
   String password1;
   String password2;
   ValidaRegisterEvent({
-    required this.email,
+    required this.userName,
     required this.password1,
     required this.password2,
   });

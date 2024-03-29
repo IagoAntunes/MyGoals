@@ -4,6 +4,7 @@ using MyGoalsBackend.Api.Repositories;
 using MyGoalsBackend.Data;
 using MyGoalsBackend.Data.Dtos.Requests;
 using MyGoalsBackend.Data.Dtos.Responses;
+using MyGoalsBackend.Data.Dtos.Results;
 
 namespace MyGoalsBackend.Api.Controllers
 {
@@ -64,7 +65,16 @@ namespace MyGoalsBackend.Api.Controllers
         public IActionResult DeleteGoal(int goalId )
         {
             var result = _repository.DeleteGoal(goalId);
-            return Ok(new BaseResponse(result.Message));
+            string status;
+            if (result is SuccessResult)
+            {
+                status = "Sucesso";
+            }
+            else
+            {
+                status = "Falha";
+            }
+            return Ok(new BaseResponse(result.Message, status));
         }
 
     }

@@ -4,6 +4,7 @@ using MyGoalsBackend.Api.Repositories;
 using MyGoalsBackend.Data;
 using MyGoalsBackend.Data.Dtos.Requests;
 using MyGoalsBackend.Data.Dtos.Responses;
+using MyGoalsBackend.Data.Dtos.Results;
 using MyGoalsBackend.Domain.Models;
 
 namespace MyGoalsBackend.Api.Controllers
@@ -23,18 +24,36 @@ namespace MyGoalsBackend.Api.Controllers
         public IActionResult CreateTransaction([FromBody] CreateTransactionDto transactionDto)
         {
             var result = _repository.CreateTransition(transactionDto);
-            var response = new TransactionResponseDto(result.Message);
+            string status;
+            if (result is SuccessResult)
+            {
+                status = "Sucesso";
+            }
+            else
+            {
+                status = "Falha";
+            }
+            var response = new TransactionResponseDto(result.Message,status);
             return Ok(response);
         }
         [HttpGet]
         public IActionResult GetTransactionsByUserId([FromQuery] int userId)
         {
             var result = _repository.GetTransactionsByUserId(userId);
-            if(result.Value == null)
+            string status;
+            if (result is SuccessTResult<ICollection<Transaction>>)
             {
-                return Ok(new GetTransactionsResponseDto(result.Message));
+                status = "Sucesso";
             }
-            var response = new GetTransactionsResponseDto(result.Value,result.Message);
+            else
+            {
+                status = "Falha";
+            }
+            if (result.Value == null)
+            {
+                return Ok(new GetTransactionsResponseDto(result.Message,status));
+            }
+            var response = new GetTransactionsResponseDto(result.Value,result.Message,status);
             return Ok(response);
         }
     }

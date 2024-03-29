@@ -24,8 +24,17 @@ namespace MyGoalsBackend.Api.Controllers
         public async Task<ActionResult<IResponseDto>> CreateUser(CreateUserDto userDto)
         {
             var result = await _authRepository.Register(userDto);
+            string status;
+            if (result is SuccessResult)
+            {
+                status = "Sucesso";
+            }
+            else
+            {
+                status = "Falha";
+            }
             IResponseDto? response;
-            response = new BaseResponse(result.Message);
+            response = new BaseResponse(result.Message,status);
             return Ok(response);
    
         }
@@ -34,10 +43,20 @@ namespace MyGoalsBackend.Api.Controllers
         {
             var result = await _authRepository.Login(userDto);
             IResponseDto? response;
-            if(result is SuccessResult)
+            string status;
+            if (result is SuccessResult)
+            {
+                status = "Sucesso";
+            }
+            else
+            {
+                status = "Falha";
+            }
+            if (result is SuccessResult)
             {
                 response  = new LoginResponseDto(
                     message: result.Message,
+                    status: status,
                     loginUser: new LoginUserResponseDto(
                         token: (result as SignInResult).Token,
                         userId: (result as SignInResult).UserId
@@ -48,6 +67,7 @@ namespace MyGoalsBackend.Api.Controllers
             else
             {
                 response = new LoginResponseDto(
+                    status:status,
                     errorMessage: result.Message
                 );
             }
@@ -58,7 +78,16 @@ namespace MyGoalsBackend.Api.Controllers
         public IActionResult DeleteUser(int userId)
         {
             var result = _authRepository.DeleteUser(userId);
-            return Ok(new BaseResponse(result.Message));
+            string status;
+            if(result is SuccessResult)
+            {
+                status = "Sucesso";
+            }
+            else
+            {
+                status = "Falha";
+            }
+            return Ok(new BaseResponse(result.Message, status));
         }
   
     }

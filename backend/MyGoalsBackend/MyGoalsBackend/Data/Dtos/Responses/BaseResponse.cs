@@ -4,7 +4,7 @@ namespace MyGoalsBackend.Data.Dtos.Responses
 {
     public class BaseResponse : IResponseDto
     {
-        public BaseResponse(string message) : base(message)
+        public BaseResponse(string message,string status) : base(message,status)
         {
         }
     }

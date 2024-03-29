@@ -29,7 +29,7 @@ namespace MyGoalsBackend.Data.Services
             var userExists =  _authContext.Users.FirstOrDefault(user =>user.Username.ToLower().Equals(userDto.Username.ToLower()));
             if(userExists != null)
             {
-                return new FailureResult("Usuário inexistente!");
+                return new FailureResult("Usuário ja existente!");
             }
 
             User user = _mapper.Map<User>(userDto);

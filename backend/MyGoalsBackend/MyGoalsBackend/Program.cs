@@ -1,9 +1,11 @@
+using Microsoft.AspNetCore.Hosting;
 using Microsoft.EntityFrameworkCore;
 using MyGoalsBackend.Api.Repositories;
 using MyGoalsBackend.Data;
 using MyGoalsBackend.Data.Services;
 using MyGoalsBackend.Domain.IServices;
 using MyGoalsBackend.Domain.Repositories;
+using System.Net;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -15,6 +17,7 @@ builder.Services.AddDbContext<MyGoalsDbContext>(
         opts.UseMySql(connectionString, ServerVersion.AutoDetect(connectionString));
     }
     );
+
 builder.Services.AddDbContext<MyGoalsDbContext>(
     opts =>
     {
@@ -27,6 +30,7 @@ builder.Services.AddControllers()
     {
         options.JsonSerializerOptions.IgnoreNullValues = true;
     });
+
 
 //AutoMapper
 builder.Services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
@@ -52,7 +56,6 @@ builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
 var app = builder.Build();
-
 // Configure the HTTP request pipeline.
 if (app.Environment.IsDevelopment())
 {

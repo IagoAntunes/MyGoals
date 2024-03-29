@@ -1,5 +1,9 @@
 abstract class ILoginState {}
 
+abstract class ILoginListeners extends ILoginState {}
+
+class SuccessLoggeddLoginListener extends ILoginListeners {}
+
 class IdleLoginState extends ILoginState {}
 
 class SuccessLoginState extends ILoginState {}

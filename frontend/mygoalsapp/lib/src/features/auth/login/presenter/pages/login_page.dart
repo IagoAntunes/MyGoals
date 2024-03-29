@@ -1,20 +1,28 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:mygoalsapp/core/widgets/password_textfield_widget.dart';
+import 'package:mygoalsapp/src/features/auth/auth/auth_bloc.dart';
+import 'package:mygoalsapp/src/features/auth/auth/data/service/i_auth_service.dart';
+import 'package:mygoalsapp/src/features/auth/auth/domain/repositories/i_auth_repository.dart';
 import 'package:mygoalsapp/src/features/auth/login/presenter/bloc/login_bloc.dart';
 import 'package:mygoalsapp/src/features/auth/login/presenter/bloc/login_event.dart';
 import 'package:mygoalsapp/src/features/auth/login/presenter/bloc/login_state.dart';
 
 import '../../../../../../core/widgets/custom_textfield_widget.dart';
+import '../../../auth/auth_event.dart';
 import '../../../register/presenter/pages/register_page.dart';
 
 class LoginPage extends StatelessWidget {
   LoginPage({super.key});
 
   final _formKey = GlobalKey<FormState>();
-  final loginBloc = LoginBloc();
+  final loginBloc = LoginBloc(
+    authRepository: AuthRepository(
+      authService: AuthService(),
+    ),
+  );
 
-  final emailController = TextEditingController();
+  final userNameController = TextEditingController();
   final passwordController = TextEditingController();
 
   @override
@@ -25,7 +33,15 @@ class LoginPage extends StatelessWidget {
         child: SingleChildScrollView(
           child: Form(
             key: _formKey,
-            child: BlocBuilder<LoginBloc, ILoginState>(
+            child: BlocConsumer<LoginBloc, ILoginState>(
+              listenWhen: (previous, current) => current is ILoginListeners,
+              listener: (context, state) {
+                if (state is SuccessLoggeddLoginListener) {
+                  BlocProvider.of<AuthBloc>(context).add(
+                    LoggeddAuthEvent(),
+                  );
+                }
+              },
               bloc: loginBloc,
               builder: (context, state) {
                 return Column(
@@ -53,17 +69,15 @@ class LoginPage extends StatelessWidget {
                     ),
                     const SizedBox(height: 40),
                     CustomTextFormField(
-                      label: 'Email',
-                      hintText: 'example@.com.br',
-                      controller: emailController,
-                      prefixIcon: Icons.email,
-                      keyboardType: TextInputType.emailAddress,
+                      label: 'Nome',
+                      hintText: 'Seu nome...',
+                      controller: userNameController,
+                      prefixIcon: Icons.person,
+                      keyboardType: TextInputType.text,
                       enabled: state is! LoadingLoginState,
-                      validator: (email) {
-                        if (email == null || email.isEmpty) {
+                      validator: (userName) {
+                        if (userName == null || userName.isEmpty) {
                           return "*obrigatório";
-                        } else if (!email.contains('@')) {
-                          return 'email inválido';
                         }
                         return null;
                       },
@@ -83,7 +97,7 @@ class LoginPage extends StatelessWidget {
                           if (_formKey.currentState!.validate()) {
                             loginBloc.add(
                               LoginEvent(
-                                email: emailController.text,
+                                userName: userNameController.text,
                                 password: passwordController.text,
                               ),
                             );
