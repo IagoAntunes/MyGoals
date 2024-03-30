@@ -21,7 +21,7 @@ void main() async {
 Future<AuthBloc> verifyIsLogged() async {
   final AuthBloc authBloc;
   final prefs = await SharedPreferences.getInstance();
-  final isLogged = prefs.getBool("isLogged") ?? false;
+  final isLogged = prefs.getString("userId")?.isNotEmpty ?? false;
   if (isLogged) {
     authBloc = AuthBloc(
       AuthenticationStateStatus(

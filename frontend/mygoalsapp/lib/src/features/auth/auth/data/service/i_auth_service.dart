@@ -1,6 +1,7 @@
 import 'dart:convert';
 
 import 'package:mygoalsapp/core/routes_service/app_routes_service.dart';
+import 'package:mygoalsapp/src/features/auth/auth/domain/responses/login_user_response.dart';
 import 'package:mygoalsapp/src/features/auth/login/domain/request/register_user_request.dart';
 import 'package:http/http.dart' as http;
 
@@ -42,12 +43,19 @@ class AuthService extends IAuthService {
       );
       final result = jsonDecode(response.body);
       if (result['status'] == 'Sucesso') {
-        return SuccessMessageResponseService(message: result['message']);
+        return SuccessResponseService(
+          message: result['message'],
+          value: LoginUserResponse(
+            user: result['user'],
+          ),
+        );
       } else {
         return throw (result['message']);
       }
     } catch (e) {
-      return FailureMessageResponseService(message: e.toString());
+      return FailureMessageResponseService(
+        message: e.toString(),
+      );
     }
   }
 }
