@@ -4,6 +4,7 @@ import 'package:mygoalsapp/core/response_service/response_service.dart';
 import 'package:mygoalsapp/core/routes_service/app_routes_service.dart';
 import 'package:mygoalsapp/src/features/home/data/services/i_goal_service.dart';
 import 'package:http/http.dart' as http;
+import 'package:mygoalsapp/src/features/home/domain/requests/create_goal_request.dart';
 import 'package:mygoalsapp/src/features/home/domain/requests/get_goals_request.dart';
 import 'package:mygoalsapp/src/features/home/domain/responses/get_goal_response.dart';
 
@@ -22,6 +23,27 @@ class GoalService extends IGoalService {
             message: result['message'],
             goals: result['goals'],
           ),
+        );
+      } else {
+        return throw (result['message']);
+      }
+    } catch (e) {
+      return FailureMessageResponseService(message: e.toString());
+    }
+  }
+
+  @override
+  Future<IResponseService> createGoal(CreateGoalRequest request) async {
+    try {
+      final response = await http.post(
+        Uri.parse(AppRoutesService.goal),
+        body: request.toJson(),
+        headers: {'Content-Type': 'application/json'},
+      );
+      final result = jsonDecode(response.body);
+      if (result['status'] == 'Sucesso') {
+        return SuccessMessageResponseService(
+          message: result['message'],
         );
       } else {
         return throw (result['message']);

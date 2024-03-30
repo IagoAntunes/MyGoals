@@ -12,6 +12,7 @@ class CustomTextFormField extends StatelessWidget {
     this.label,
     this.enabled,
     this.hintText,
+    this.autofocus = false,
   });
   final TextEditingController controller;
   final IconData? prefixIcon;
@@ -22,6 +23,7 @@ class CustomTextFormField extends StatelessWidget {
   final String? label;
   final bool? enabled;
   final String? hintText;
+  final bool autofocus;
   @override
   Widget build(BuildContext context) {
     return TextFormField(
@@ -30,11 +32,12 @@ class CustomTextFormField extends StatelessWidget {
       keyboardType: keyboardType,
       validator: validator,
       enabled: enabled,
+      autofocus: autofocus,
       decoration: InputDecoration(
         hintText: hintText,
         label: label == null ? null : Text(label!),
         floatingLabelBehavior: FloatingLabelBehavior.always,
-        prefixIcon: Icon(prefixIcon),
+        prefixIcon: prefixIcon == null ? null : Icon(prefixIcon),
         suffixIcon: suffix,
         border: const OutlineInputBorder(),
       ),

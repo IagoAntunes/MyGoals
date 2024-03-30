@@ -7,6 +7,18 @@ abstract class IGoalState {
   });
 }
 
+abstract class IGoalListeners extends IGoalState {
+  String message;
+  IGoalListeners({
+    required this.message,
+    required super.listGoals,
+  });
+}
+
+class CreatedGoalListener extends IGoalListeners {
+  CreatedGoalListener({required super.message, required super.listGoals});
+}
+
 class IdleGoalState extends IGoalState {
   IdleGoalState() : super(listGoals: []);
 }

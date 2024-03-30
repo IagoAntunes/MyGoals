@@ -38,7 +38,7 @@ class TransactionCardWidget extends StatelessWidget {
             const Spacer(),
             Text(
               transaction.date,
-              style: TextStyle(
+              style: const TextStyle(
                 fontSize: 14,
                 color: Color(0xff7C7C8A),
               ),

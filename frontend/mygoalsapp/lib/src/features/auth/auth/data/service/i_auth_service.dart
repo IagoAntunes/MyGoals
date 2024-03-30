@@ -10,7 +10,7 @@ import '../../../login/domain/request/login_user_request.dart';
 
 abstract class IAuthService {
   Future<IResponseService> registerUser(RegisterUserRequest userRequest);
-  Future<IResponseService> login(LoginUserRequest userRequest);
+  Future<IResponseService> login(LoginUserRequest request);
 }
 
 class AuthService extends IAuthService {
@@ -34,11 +34,11 @@ class AuthService extends IAuthService {
   }
 
   @override
-  Future<IResponseService> login(LoginUserRequest loginRequest) async {
+  Future<IResponseService> login(LoginUserRequest request) async {
     try {
       final response = await http.post(
         Uri.parse(AppRoutesService.userLoginUrl),
-        body: loginRequest.toJson(),
+        body: request.toJson(),
         headers: {'Content-Type': 'application/json'},
       );
       final result = jsonDecode(response.body);

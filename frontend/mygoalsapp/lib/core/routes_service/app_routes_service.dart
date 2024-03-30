@@ -3,5 +3,6 @@ class AppRoutesService {
   static String userRegisterUrl = "$baseUrl/Usuario/register";
   static String userLoginUrl = "$baseUrl/Usuario/login";
   static String getGoals = "$baseUrl/Goal";
+  static String goal = "$baseUrl/Goal";
   static String getTransactions = "$baseUrl/Transaction";
 }
