@@ -5,6 +5,7 @@ using MyGoalsBackend.Data;
 using MyGoalsBackend.Data.Dtos.Requests;
 using MyGoalsBackend.Data.Dtos.Responses;
 using MyGoalsBackend.Data.Dtos.Results;
+using MyGoalsBackend.Domain.Models;
 
 namespace MyGoalsBackend.Api.Controllers
 {
@@ -32,7 +33,16 @@ namespace MyGoalsBackend.Api.Controllers
         public IActionResult CreateGoal([FromBody] CreateGoalDto goalDto)
         {
             var result = _repository.createGoal(goalDto);
-            var response = new GoalResponseDto(result.Message);
+            string status;
+            if (result is SuccessResult)
+            {
+                status = "Sucesso";
+            }
+            else
+            {
+                status = "Falha";
+            }
+            var response = new GoalResponseDto(result.Message,status);
 
             return Ok(response);
         }
@@ -40,7 +50,16 @@ namespace MyGoalsBackend.Api.Controllers
         public IActionResult GetGoals([FromQuery] GetGoalsDto goalDto)
         {
             var result = _repository.GetGoals(goalDto);
-            var response = new GoalGetResponseDto(result.Message,result.Value);
+            string status;
+            if (result is SuccessGetResult<ICollection<Goal>>)
+            {
+                status = "Sucesso";
+            }
+            else
+            {
+                status = "Falha";
+            }
+            var response = new GoalGetResponseDto(result.Message,result.Value,status);
             return Ok(response);
         }
         [HttpPut]
@@ -48,16 +67,26 @@ namespace MyGoalsBackend.Api.Controllers
         {
             var result = _repository.UpdateGoal(goalDto);
             GoalPutResponseDto response;
-            if(result.Value == null)
+            string status;
+            if (result is SuccessResult)
             {
-                return Ok(new GoalPutResponseDto(result.Message));
+                status = "Sucesso";
+            }
+            else
+            {
+                status = "Falha";
+            }
+            if (result.Value == null)
+            {
+                return Ok(new GoalPutResponseDto(result.Message,status));
             }
              response = new GoalPutResponseDto(result.Message,
                 result.Value.Id,
                 result.Value.UserId,
                 result.Value.Title,
                 result.Value.Price,
-                result.Value.CurrentValue
+                result.Value.CurrentValue,
+                status
                 );
             return Ok(response);
         }

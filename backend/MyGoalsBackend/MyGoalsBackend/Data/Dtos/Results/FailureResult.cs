@@ -18,4 +18,10 @@
             ) : base(errorMessage,value) { }
 
     }
+    public class FailureGetResult<T> : IBaseGetResult<T>
+    {
+        public FailureGetResult(string message) : base(message)
+        {
+        }
+    }
 }

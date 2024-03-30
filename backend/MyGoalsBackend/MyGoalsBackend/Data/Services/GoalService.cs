@@ -53,7 +53,7 @@ namespace MyGoalsBackend.Data.Services
 
         public IBaseGetResult<ICollection<Goal>> GetGoals(GetGoalsDto goalDto)
         {
-            var goals = _context.Goals.Include(g => g.User).ToList();
+            var goals = _context.Goals.Include(g => g.User).Where(goal => goal.UserId == goalDto.userId) .ToList();
             return new SuccessGetResult<ICollection<Goal>>("Consulta realizaa com sucesso", goals);
         }
 

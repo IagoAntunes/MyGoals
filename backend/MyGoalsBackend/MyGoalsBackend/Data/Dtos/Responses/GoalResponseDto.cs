@@ -1,21 +1,18 @@
-﻿using MyGoalsBackend.Domain.Models;
+﻿using MyGoalsBackend.Data.Dtos.Results;
+using MyGoalsBackend.Domain.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace MyGoalsBackend.Data.Dtos.Responses
 {
-    public class GoalResponseDto
+    public class GoalResponseDto : IResponseDto
     {
-        public GoalResponseDto(string message)
-        {
-            this.Message = message;
-        }
-        public string Message { get; set; }
+        public GoalResponseDto(string message,string status) : base(message,status) { }
     }
 
     public class GoalGetResponseDto : GoalResponseDto
     {
         public ICollection<Goal> Goals { get; set; }
-        public GoalGetResponseDto(string message, ICollection<Goal> goals) : base(message)
+        public GoalGetResponseDto(string message, ICollection<Goal> goals,string status) : base(message,status)
         {
             this.Goals = goals; 
         }
@@ -28,8 +25,9 @@ namespace MyGoalsBackend.Data.Dtos.Responses
         public int? Price { get; set; }
         public int? CurrentValue { get; set; }
         public GoalPutResponseDto(
-            string message
-            ) : base(message)
+            string message,
+            string status
+            ) : base(message,status)
                 {
             this.Id = null;
         }
@@ -39,8 +37,9 @@ namespace MyGoalsBackend.Data.Dtos.Responses
             int userId,
             string title,
             int price,
-            int currentValue
-            ) : base(message)
+            int currentValue,
+            string status
+            ) : base(message,status)
         {
             this.Id = id;
             this.UserId = userId;

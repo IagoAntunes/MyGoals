@@ -20,10 +20,13 @@
     }
     public abstract class IBaseGetResult<T> : IBaseResult
     {
-        public T Value { get; set; }
+        public T? Value { get; set; }
         public IBaseGetResult(string message, T value) : base(message)
         {
             this.Value = value;
+        }
+        public IBaseGetResult(string message) : base(message)
+        {
         }
     }
 }

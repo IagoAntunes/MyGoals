@@ -10,10 +10,14 @@ namespace MyGoalsBackend.Domain.Repositories
     {
         IGoalService _goalService;
         ITransactionService _transactionService;
-        public GoalRepository(IGoalService goalService, ITransactionService transactionService)
+        IAuthService _authService;
+        public GoalRepository(IGoalService goalService,
+            ITransactionService transactionService,
+            IAuthService _authService)
         {
             this._goalService = goalService;
             this._transactionService = transactionService;
+            this._authService = _authService;
         }
         public IBaseResult createGoal(CreateGoalDto goalDto)
         {
@@ -33,7 +37,16 @@ namespace MyGoalsBackend.Domain.Repositories
 
         public IBaseGetResult<ICollection<Goal>> GetGoals(GetGoalsDto goalDto)
         {
-            return _goalService.GetGoals(goalDto);
+            var result = _authService.ValidateUser(goalDto.userId);
+            if(result is SuccessResult)
+            {
+                return _goalService.GetGoals(goalDto);
+            }
+            else
+            {
+                return new FailureGetResult<ICollection<Goal>>(result.Message);
+            }
+   
         }
 
         public IBaseTResult<Goal?> UpdateGoal(UpdateGoalDto goalDto)
