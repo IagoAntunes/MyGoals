@@ -13,6 +13,8 @@ class CustomTextFormField extends StatelessWidget {
     this.enabled,
     this.hintText,
     this.autofocus = false,
+    this.preffix,
+    this.errorText,
   });
   final TextEditingController controller;
   final IconData? prefixIcon;
@@ -24,6 +26,8 @@ class CustomTextFormField extends StatelessWidget {
   final bool? enabled;
   final String? hintText;
   final bool autofocus;
+  final Widget? preffix;
+  final String? errorText;
   @override
   Widget build(BuildContext context) {
     return TextFormField(
@@ -35,9 +39,11 @@ class CustomTextFormField extends StatelessWidget {
       autofocus: autofocus,
       decoration: InputDecoration(
         hintText: hintText,
+        errorText: errorText,
         label: label == null ? null : Text(label!),
         floatingLabelBehavior: FloatingLabelBehavior.always,
         prefixIcon: prefixIcon == null ? null : Icon(prefixIcon),
+        prefix: preffix,
         suffixIcon: suffix,
         border: const OutlineInputBorder(),
       ),

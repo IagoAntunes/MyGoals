@@ -15,7 +15,21 @@ class TransactionBloc extends Bloc<ITransactionEvent, ITransactionState> {
     on<GetTransactionsEvent>((event, emit) async {
       var prefs = await SharedPreferences.getInstance();
       var userId = prefs.getString('userId');
-      var request = GetTransactionsRequest(userId: int.parse(userId!));
+      var request = GetTransactionsRequest(
+        userId: int.parse(userId!),
+      );
+      var result = await repository.getTransactions(request);
+      if (result is SuccessResponseService<List<TransactionModel>>) {
+        emit(SuccessGetTransactionsState(transactions: result.value));
+      }
+    });
+    on<GetTransactionsByGoalEvent>((event, emit) async {
+      var prefs = await SharedPreferences.getInstance();
+      var userId = prefs.getString('userId');
+      var request = GetTransactionsRequest(
+        userId: int.parse(userId!),
+        goalId: event.goalId,
+      );
       var result = await repository.getTransactions(request);
       if (result is SuccessResponseService<List<TransactionModel>>) {
         emit(SuccessGetTransactionsState(transactions: result.value));

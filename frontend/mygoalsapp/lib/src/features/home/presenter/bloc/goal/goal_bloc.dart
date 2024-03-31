@@ -42,5 +42,6 @@ class GoalBloc extends Bloc<IGoalEvent, IGoalState> {
         );
       }
     });
+    add(GetGoalsEvent());
   }
 }

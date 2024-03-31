@@ -3,4 +3,7 @@ import 'package:mygoalsapp/src/features/home/domain/requests/get_transactions_re
 
 abstract class ITransactionService {
   Future<IResponseService> getTransactions(GetTransactionsRequest request);
+  Future<IResponseService> getTransactionsByGoal(
+    GetTransactionsRequest request,
+  );
 }

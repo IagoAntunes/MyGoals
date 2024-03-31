@@ -14,7 +14,12 @@ class TransactionRepository extends ITransactionRepository {
   @override
   Future<IResponseService> getTransactions(
       GetTransactionsRequest request) async {
-    var result = await service.getTransactions(request);
+    late IResponseService result;
+    if (request.goalId == null) {
+      result = await service.getTransactions(request);
+    } else {
+      result = await service.getTransactionsByGoal(request);
+    }
     if (result is SuccessResponseService<GetTransactionResponse>) {
       List<TransactionModel> transactions = [];
       for (var t in result.value.transactions) {

@@ -32,4 +32,29 @@ class TransactionService extends ITransactionService {
       return FailureMessageResponseService(message: e.toString());
     }
   }
+
+  @override
+  Future<IResponseService> getTransactionsByGoal(
+      GetTransactionsRequest request) async {
+    try {
+      final response = await http.get(
+        Uri.parse(
+          "${AppRoutesService.getTransactions}?userId=${request.userId}?goalId=${request.goalId}",
+        ),
+      );
+      final result = jsonDecode(response.body);
+      if (result['status'] == 'Sucesso') {
+        return SuccessResponseService(
+          message: result['message'],
+          value: GetTransactionResponse(
+            transactions: result['transactions'],
+          ),
+        );
+      } else {
+        return throw (result['message']);
+      }
+    } catch (e) {
+      return FailureMessageResponseService(message: e.toString());
+    }
+  }
 }

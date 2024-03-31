@@ -85,7 +85,7 @@ class MyApp extends StatelessWidget {
           bloc: authBloc,
           builder: (context, state) {
             return state.status == AuthenticationStatusEnum.authenticated
-                ? HomePage()
+                ? const HomePage()
                 : LoginPage();
           },
         ),
