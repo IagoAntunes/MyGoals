@@ -37,9 +37,9 @@ namespace MyGoalsBackend.Api.Controllers
             return Ok(response);
         }
         [HttpGet]
-        public IActionResult GetTransactionsByUserId([FromQuery] int userId)
+        public IActionResult GetTransactionsByUserId([FromQuery] int userId, [FromQuery] int? goalId)
         {
-            var result = _repository.GetTransactionsByUserId(userId);
+            var result = _repository.GetTransactionsByUserId(userId, goalId);
             string status;
             if (result is SuccessTResult<ICollection<Transaction>>)
             {

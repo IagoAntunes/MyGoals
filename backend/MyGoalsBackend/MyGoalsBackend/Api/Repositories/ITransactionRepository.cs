@@ -8,6 +8,6 @@ namespace MyGoalsBackend.Api.Repositories
     {
         IBaseResult CreateTransition(CreateTransactionDto transactionDto);
         IBaseResult GetTransactions(int userId);
-        IBaseTResult<ICollection<Transaction>?> GetTransactionsByUserId(int userId);
+        IBaseTResult<ICollection<Transaction>?> GetTransactionsByUserId(int userId, int? goalId);
     }
 }

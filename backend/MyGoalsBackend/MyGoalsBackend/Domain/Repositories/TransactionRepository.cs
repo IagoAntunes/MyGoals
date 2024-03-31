@@ -53,14 +53,21 @@ namespace MyGoalsBackend.Domain.Repositories
             throw new NotImplementedException();
         }
 
-        public IBaseTResult<ICollection<Transaction>?> GetTransactionsByUserId(int userId)
+        public IBaseTResult<ICollection<Transaction>?> GetTransactionsByUserId(int userId, int? goalId)
         {
             var result = _authService.ValidateUser(userId);
             if(result  is FailureResult)
             {
                 return new FailureTResult<ICollection<Transaction>?>("Usuário não encontrado",null);
             }
+            if (goalId == null){
             return _service.GetTransactionsByUserId(userId);
+
+            }
+            else
+            {
+                return _service.GetTransactionsByGoal(userId,goalId);
+            }
         }
     }
 }

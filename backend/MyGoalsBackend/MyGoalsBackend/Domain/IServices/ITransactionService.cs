@@ -10,5 +10,6 @@ namespace MyGoalsBackend.Domain.IServices
         IBaseResult DeleteTransactionsByGoalId(int goalId);
         IBaseResult DeleteAllTransactionsByUserId(int userId);
         IBaseTResult<ICollection<Transaction>?> GetTransactionsByUserId(int userId);
+        IBaseTResult<ICollection<Transaction>?> GetTransactionsByGoal(int userId, int? goalId);
     }
 }

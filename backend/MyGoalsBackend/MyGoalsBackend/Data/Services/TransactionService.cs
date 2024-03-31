@@ -51,6 +51,12 @@ namespace MyGoalsBackend.Data.Services
             return new SuccessResult("Transações removidas");
         }
 
+        public IBaseTResult<ICollection<Transaction>?> GetTransactionsByGoal(int userId, int? goalId)
+        {
+            var result = _dbContext.Transactions.Where(t => t.UserId == userId && t.GoalId == goalId).ToList();
+            return new SuccessTResult<ICollection<Transaction>>("Consulta realizada com sucesso", result);
+        }
+
         public IBaseTResult<ICollection<Transaction>?> GetTransactionsByUserId(int userId)
         {
             var result = _dbContext.Transactions.Where(t => t.UserId == userId).ToList();
