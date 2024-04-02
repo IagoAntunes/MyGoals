@@ -10,3 +10,16 @@ class GetTransactionsByGoalEvent extends ITransactionEvent {
     required this.goalId,
   });
 }
+
+class CreateTransactionEvent extends ITransactionEvent {
+  int goalId;
+  int value;
+  String type;
+  String datetime;
+  CreateTransactionEvent({
+    required this.goalId,
+    required this.value,
+    required this.type,
+    required this.datetime,
+  });
+}

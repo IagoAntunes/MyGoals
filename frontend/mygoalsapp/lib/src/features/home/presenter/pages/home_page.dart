@@ -55,7 +55,7 @@ class _HomePageState extends State<HomePage> {
                 color: AppColors.cGray,
               ),
               const SizedBox(height: 16),
-              ListTransactions(),
+              const ListTransactions(),
             ],
           ),
         ),
