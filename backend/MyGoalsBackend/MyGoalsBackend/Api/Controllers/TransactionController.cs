@@ -49,6 +49,7 @@ namespace MyGoalsBackend.Api.Controllers
             {
                 status = "Falha";
             }
+        https://192.168.5.178:7148/Transaction?userId=2?goalId=9
             if (result.Value == null)
             {
                 return Ok(new GetTransactionsResponseDto(result.Message,status));
