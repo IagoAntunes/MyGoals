@@ -5,4 +5,5 @@ class AppRoutesService {
   static String getGoals = "$baseUrl/Goal";
   static String goal = "$baseUrl/Goal";
   static String getTransactions = "$baseUrl/Transaction";
+  static String transaction = "$baseUrl/Transaction";
 }

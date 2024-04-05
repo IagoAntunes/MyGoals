@@ -7,6 +7,14 @@ abstract class ITransactionState {
   });
 }
 
+abstract class ITransactionListeners extends ITransactionState {
+  ITransactionListeners({required super.transactions});
+}
+
+class SuccessPostTransactionListener extends ITransactionListeners {
+  SuccessPostTransactionListener({required super.transactions});
+}
+
 class IdleTransactionState extends ITransactionState {
   IdleTransactionState({required super.transactions});
 }

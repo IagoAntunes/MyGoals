@@ -43,12 +43,12 @@ class TransactionBloc extends Bloc<ITransactionEvent, ITransactionState> {
         datetime: event.datetime,
         goalId: event.goalId,
         type: event.type,
-        vlaue: event.value,
+        value: event.value,
         userId: userId!,
       );
       var result = await repository.createTransaction(request);
-      if (result is SuccessResponseService<List<TransactionModel>>) {
-        emit(SuccessGetTransactionsState(transactions: result.value));
+      if (result is SuccessMessageResponseService) {
+        emit(SuccessPostTransactionListener(transactions: state.transactions));
       }
     });
   }

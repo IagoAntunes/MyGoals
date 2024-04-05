@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:intl/intl.dart';
 import 'package:mygoalsapp/core/theme/app_colors.dart';
 import 'package:mygoalsapp/src/features/home/domain/models/transaction_model.dart';
 
@@ -37,7 +38,7 @@ class TransactionCardWidget extends StatelessWidget {
               ),
             const Spacer(),
             Text(
-              transaction.date,
+              DateFormat('dd/MM/yyyy').format(DateTime.parse(transaction.date)),
               style: const TextStyle(
                 fontSize: 14,
                 color: Color(0xff7C7C8A),

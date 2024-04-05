@@ -40,9 +40,10 @@ class TransactionService extends ITransactionService {
     try {
       final response = await http.get(
         Uri.parse(
-          "${AppRoutesService.getTransactions}?userId=${request.userId}?goalId=${request.goalId}",
+          "${AppRoutesService.getTransactions}?userId=${request.userId}&goalId=${request.goalId}",
         ),
       );
+      print(request.toJson());
       final result = jsonDecode(response.body);
       if (result['status'] == 'Sucesso') {
         return SuccessResponseService(
@@ -63,18 +64,17 @@ class TransactionService extends ITransactionService {
   Future<IResponseService> createTransaction(
       CreateTransactionRequest request) async {
     try {
-      final response = await http.get(
+      final response = await http.post(
         Uri.parse(
-          "${AppRoutesService.getTransactions}?userId=${request.userId}?goalId=${request.goalId}",
+          AppRoutesService.transaction,
         ),
+        body: request.toJson(),
+        headers: {'Content-Type': 'application/json'},
       );
       final result = jsonDecode(response.body);
       if (result['status'] == 'Sucesso') {
-        return SuccessResponseService(
+        return SuccessMessageResponseService(
           message: result['message'],
-          value: GetTransactionResponse(
-            transactions: result['transactions'],
-          ),
         );
       } else {
         return throw (result['message']);

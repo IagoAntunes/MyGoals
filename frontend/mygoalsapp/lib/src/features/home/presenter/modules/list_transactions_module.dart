@@ -9,11 +9,15 @@ import 'package:mygoalsapp/src/features/home/presenter/widgets/transaction_card_
 import '../../domain/repositories/transaction_repository.dart';
 
 class ListTransactions extends StatefulWidget {
-  const ListTransactions({
+  ListTransactions({
     super.key,
     this.goalId,
+    this.listener,
+    this.bloc,
   });
+  TransactionBloc? bloc;
   final int? goalId;
+  final void Function(BuildContext, ITransactionState)? listener;
   @override
   State<ListTransactions> createState() => _ListTransactionsState();
 }
@@ -22,23 +26,27 @@ class _ListTransactionsState extends State<ListTransactions> {
   @override
   void initState() {
     super.initState();
+    widget.bloc ??= TransactionBloc(
+      repository: TransactionRepository(
+        service: TransactionService(),
+      ),
+    );
     if (widget.goalId == null) {
-      bloc.add(GetTransactionsEvent());
+      widget.bloc!.add(GetTransactionsEvent());
     } else {
-      bloc.add(GetTransactionsByGoalEvent(goalId: widget.goalId!));
+      widget.bloc!.add(GetTransactionsByGoalEvent(goalId: widget.goalId!));
     }
   }
 
-  final bloc = TransactionBloc(
-    repository: TransactionRepository(
-      service: TransactionService(),
-    ),
-  );
-
   @override
   Widget build(BuildContext context) {
-    return BlocBuilder<TransactionBloc, ITransactionState>(
-      bloc: bloc,
+    return BlocConsumer<TransactionBloc, ITransactionState>(
+      listenWhen: (previous, current) => current is ITransactionListeners,
+      listener: widget.listener ??
+          (preview, current) {
+            //
+          },
+      bloc: widget.bloc!,
       builder: (context, state) {
         return Expanded(
           child: ListView.builder(
